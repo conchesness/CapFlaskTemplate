@@ -14,7 +14,6 @@ from .mail import send_email
 # This function is called by other functions to load the current user in to memory
 @login.user_loader
 def load_user(id):
-    print('loading user')
     try:
         return User.objects.get(pk=id)
     except mongoengine.errors.DoesNotExist:
