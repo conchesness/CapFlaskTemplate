@@ -45,6 +45,7 @@ def postNew():
             # the right side is the data the user entered which is held in the form object.
             subject = form.subject.data,
             content = form.content.data,
+            exclass = form.exclass.data,
             author = current_user.id,
             # This sets the modifydate to the current datetime.
             modifydate = dt.datetime.utcnow
@@ -91,12 +92,14 @@ def postEdit(postID):
         editPost.update(
             subject = form.subject.data,
             content = form.content.data,
+            exclass = form.exclass.data,
             modifydate = dt.datetime.utcnow
         )
         return redirect(url_for('post',postID=postID))
 
     form.subject.data = editPost.subject
     form.content.data = editPost.content
+    form.exclass.data = editPost.exclass
 
     return render_template('postform.html',form=form)
 
