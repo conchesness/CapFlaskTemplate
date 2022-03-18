@@ -1,3 +1,8 @@
 .bottom-image img{
     vertical-align:bottom;
     }
+
+.bg-cover {
+    background-size: cover !important;
+}
+    
