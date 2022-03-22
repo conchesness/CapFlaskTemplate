@@ -1,9 +1,11 @@
-# This is where all the database tables are defined. Each class name is the name of the data collection
-# and each item is a data 'field' that stores a piece of data.  Data fields have types
-# like IntField, StringField etc.  This uses the Mongoengine Python Library. When you interact with the 
-# data you are creating an onject that is an instance of the class.
+# This is where all the database collections are defined. A collection is a place to hold a defined 
+# set of data like Users, Posts, Comments. Collections are defined below as classes. Each class name is 
+# the name of the data collection and each item is a data 'field' that stores a piece of data.  Data 
+# fields have types like IntField, StringField etc.  This uses the Mongoengine Python Library. When 
+# you interact with the data you are creating an onject that is an instance of the class.
 
 from app import app
+from flask import flash
 from flask_login import UserMixin
 from mongoengine import FileField, EmailField, StringField, ReferenceField, DateTimeField, CASCADE
 from flask_mongoengine import Document
@@ -11,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
 import jwt
 from time import time
-from bson.objectid import ObjectId
+#from bson.objectid import ObjectId
 
 class User(UserMixin, Document):
     username = StringField()
@@ -38,6 +40,7 @@ class User(UserMixin, Document):
             id = jwt.decode(token, app.config['SECRET_KEY'],
                             algorithms=['HS256'])['reset_password']
         except:
+            flash("Could not verify reset password token.")
             return
         return User.objects.get(pk=id)
 
