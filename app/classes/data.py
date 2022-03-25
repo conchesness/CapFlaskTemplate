@@ -71,3 +71,12 @@ class Comment(Document):
     meta = {
         'ordering': ['-createdate']
     }
+
+
+class CourseGrade(Document):
+    history = StringField()
+    math = StringField()
+    english = StringField()
+    language = StringField()
+
+    
