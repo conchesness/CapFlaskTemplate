@@ -1,3 +1,62 @@
 .bottom-image img{
     vertical-align:bottom;
     }
+.index{
+    text-align: center;
+    
+}
+
+#title-pic{
+    align-items: center;
+}
+
+.about-title-words{
+    text-align: center;
+    font-family: 'BhuTuka Expanded One', cursive;
+    font-size: 500%;
+}
+
+.about-title{
+    background-color: rgb(252, 168, 162);
+}
+
+.about-purpose{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+}
+
+.about-units-title{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 250%;
+}
+
+.about-units-expl{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.about-note{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.about-note-red{
+    font-family: 'Montserrat', sans-serif;
+    color: red;
+    font-size: x-large;
+    text-align: center;
+}
+
+.aboutme-title{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 300%;
+    text-align: left;
+}
+
+.aboutme-info{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 150%;
+    text-align: left;
+}

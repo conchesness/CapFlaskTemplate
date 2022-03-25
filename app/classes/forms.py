@@ -55,7 +55,8 @@ class ResetPasswordForm(FlaskForm):
 class ProfileForm(FlaskForm):
     fname = StringField('First Name', validators=[DataRequired()])
     lname = StringField('Last Name', validators=[DataRequired()]) 
-    image = FileField("Image") 
+    image = FileField("Image")
+    role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
     submit = SubmitField('Post')
 
 class PostForm(FlaskForm):
@@ -66,3 +67,4 @@ class PostForm(FlaskForm):
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
+
