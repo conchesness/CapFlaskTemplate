@@ -65,6 +65,7 @@ class Comment(Document):
     content = StringField()
     createdate = DateTimeField(default=dt.datetime.utcnow)
     modifydate = DateTimeField()
+    role = StringField("Role")
 
     meta = {
         'ordering': ['-createdate']

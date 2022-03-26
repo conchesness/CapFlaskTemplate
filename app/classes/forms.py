@@ -58,6 +58,7 @@ class ProfileForm(FlaskForm):
     role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
     school = SelectField('School',choices=[("Oakland Technical High School","Oakland Technical High School"),("Skyline High School","Skyline High School")])
     image = FileField("Image") 
+    role = SelectField('role',choices=[("Teacher","Teacher"),("Student", "Student")])
     submit = SubmitField('Post')
 
 class PostForm(FlaskForm):
