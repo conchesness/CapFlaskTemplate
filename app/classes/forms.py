@@ -56,12 +56,14 @@ class ProfileForm(FlaskForm):
     fname = StringField('First Name', validators=[DataRequired()])
     lname = StringField('Last Name', validators=[DataRequired()]) 
     role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
+    school = SelectField('School',choices=[("Oakland Technical High School","Oakland Technical High School"),("Skyline High School","Skyline High School")])
     image = FileField("Image") 
     submit = SubmitField('Post')
 
 class PostForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     content = TextAreaField('Post', validators=[DataRequired()])
+    tag = StringField('Tag', validators=[DataRequired()])
     submit = SubmitField('Post')
 
 class CommentForm(FlaskForm):
