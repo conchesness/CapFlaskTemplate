@@ -20,9 +20,17 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.fname.label }}<br>
-            {{ form.fname() }}<br>
-            {% for error in form.fname.errors %}
+            {{ form.role.label }}<br>
+            {{ form.role() }}<br>
+            {% for error in form.role.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.school.label }}<br>
+            {{ form.school() }}<br>
+            {% for error in form.role.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
