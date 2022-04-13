@@ -22,6 +22,14 @@
                 {% endfor %}
             </p>
             <p>
+                {{ form.feeling.label }} <br>
+                {{ form.feeling(cols=64, rows=10) }}
+                <!--List the errors for this field-->
+                {% for error in form.feeling.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
                 {{form.submit()}}
             </p>
         </form>
