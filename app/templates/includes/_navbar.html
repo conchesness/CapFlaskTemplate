@@ -1,15 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">iRate</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <div class="container-fluid mb-3">
+    <a class="navbar-brand .navbar-text display-1 font-weight-bold" href="/">iRate</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 display-7" style="margin: 0% 37%;"> 
         <li class="nav-item">
-          <a class="nav-link" href="/post/list">Home</a>
+          <a class="nav-link h-5 font-weight-bold" href="/">Home</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item">
+          <a class="nav-link" href="/aboutus">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Catalog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/post/list">Posts</a>
+        </li>
+        <li>
+      </li> 
+         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown
           </a>
@@ -19,16 +30,13 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Contact Us</a></li>
           </ul>
-        </li>
+        </li>  -->
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         {% if current_user.is_anonymous %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('login') }}">Login</a>
 
-          </li>
-          <li class= "nav-item">
-            <a class="nav-link"href="/aboutus"> About Us</a>
           </li>
         {% else %}
           <li class="nav-item">
@@ -42,4 +50,4 @@
       </ul>
     </div>
   </div>
-</nav>
+</nav>  
