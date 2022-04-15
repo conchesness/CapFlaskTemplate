@@ -1,9 +1,7 @@
 from app import app
 from flask import render_template
+class calculator.py
 
-
-print( "1 Addition" )
-print( "2 subtraction " )
-print( "3 multiplication" )
-print( "4 division" )
-
+number_1 = input('Enter your first number: ')
+number_2 = input('Enter your second number: ')
+python calculator.py
