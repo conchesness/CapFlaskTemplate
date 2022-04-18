@@ -22,6 +22,8 @@ class User(UserMixin, Document):
     lname = StringField()
     email = EmailField()
     image = FileField()
+    role = StringField()
+    school = StringField()
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -47,6 +49,7 @@ class Post(Document):
     author = ReferenceField('User',reverse_delete_rule=CASCADE) 
     subject = StringField()
     content = StringField()
+    tag = StringField()
     createdate = DateTimeField(default=dt.datetime.utcnow)
     modifydate = DateTimeField()
 
@@ -54,14 +57,18 @@ class Post(Document):
         'ordering': ['-createdate']
     }
 
+# Refercnce Teacher Class
 class Comment(Document):
+    # Line 63 is a way to access all the information in Course and Teacher w/o storing it in this class
     author = ReferenceField('User',reverse_delete_rule=CASCADE) 
     post = ReferenceField('Post',reverse_delete_rule=CASCADE)
     # This could be used to allow comments on comments
     # comment = ReferenceField('Comment',reverse_delete_rule=CASCADE)
+    # Line 68 is where you store all the info you need but won't find in the Course and Teacher Object
     content = StringField()
     createdate = DateTimeField(default=dt.datetime.utcnow)
     modifydate = DateTimeField()
+    role = StringField("Role")
 
     meta = {
         'ordering': ['-createdate']

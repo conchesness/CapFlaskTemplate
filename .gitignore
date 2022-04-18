@@ -151,3 +151,4 @@ zscripts.py
 charts.py
 /scripts
 secrets.py
+**/.DS_Store
