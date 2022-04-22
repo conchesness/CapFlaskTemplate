@@ -4,10 +4,13 @@
 # fields have types like IntField, StringField etc.  This uses the Mongoengine Python Library. When 
 # you interact with the data you are creating an onject that is an instance of the class.
 
+from typing import KeysView
+
+from setuptools import SetuptoolsDeprecationWarning
 from app import app
 from flask import flash
 from flask_login import UserMixin
-from mongoengine import FileField, EmailField, StringField, ReferenceField, DateTimeField, CASCADE
+from mongoengine import FileField, EmailField, StringField, IntField, ReferenceField, DateTimeField, CASCADE
 from flask_mongoengine import Document
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
@@ -24,6 +27,14 @@ class User(UserMixin, Document):
     image = FileField()
     role = StringField()
     school = StringField()
+    prononuns = StringField()
+    
+    # Below Is All The Teacher Keys
+    teacher_number = IntField()
+    troom_number = IntField()
+    tdescription = StringField()
+    tacademy = StringField()
+    troom_phone = IntField()
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -50,8 +61,8 @@ class Post(Document):
     subject = StringField()
     content = StringField()
     tag = StringField()
-    createdate = DateTimeField(default=dt.datetime.utcnow)
-    modifydate = DateTimeField()
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
 
     meta = {
         'ordering': ['-createdate']
@@ -66,9 +77,36 @@ class Comment(Document):
     # comment = ReferenceField('Comment',reverse_delete_rule=CASCADE)
     # Line 68 is where you store all the info you need but won't find in the Course and Teacher Object
     content = StringField()
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
+    role = StringField("Role")
+
+    meta = {
+        'ordering': ['-createdate']
+    }
+
+# _____________________ iRate
+
+class Courses(Document): 
+
+    course_number = StringField()
+    course_title = StringField()
+    course_name = StringField()
+    course_ag_requirement = StringField()
+    course_difficulty = StringField()
+    course_department = StringField()
+    
+    meta = {
+        'ordering': ['-createdate']
+    }
+
+class TeacherCourse(Document):
+    teacher = ReferenceField('User',reverse_delete_rule=CASCADE) 
+    course = ReferenceField('Courses',reverse_delete_rule=CASCADE)
+    course_description = StringField()
+    course_files = FileField()
     createdate = DateTimeField(default=dt.datetime.utcnow)
     modifydate = DateTimeField()
-    role = StringField("Role")
 
     meta = {
         'ordering': ['-createdate']
