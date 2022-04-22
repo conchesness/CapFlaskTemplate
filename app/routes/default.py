@@ -11,5 +11,5 @@ def aboutus():
     return render_template('aboutus.html')
 
 @app.route('/todolist')
-def aboutus():
+def todolist():
     return render_template('todolist.html')
