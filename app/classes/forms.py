@@ -70,3 +70,22 @@ class PostForm(FlaskForm):
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
+
+class CoursesForm(FlaskForm): 
+    course_number = StringField('Course Number', validators=[DataRequired()])
+    course_title = StringField('Course Title', validators=[DataRequired()])
+    course_name = StringField('Course Name', validators=[DataRequired()])
+    course_ag_requirement = SelectField('Courses A-G Requirement',choices=[("A- History","A- History"),("B- English", "B- English"), ("C- Mathematics","C- Mathematics"), ("D- Science","D- Science"), ("E- Language Other Than English","E- Language Other Than English"), ("F- Visual And Performing Arts","F- Visual And Performing Arts"), ("G- College-Preparatory Elective","G- College-Preparatory Elective")],validators=[DataRequired()])
+    course_difficulty = SelectField('Course Difficulty',choices=[("Advanced Placement (AP)","Advanced Placement (AP)"),("Honors (HP)", "Honors (HP)"),("College Prep (CP)","College Prep (CP)")], validators=[DataRequired()])
+    course_department = SelectField('Course Department',choices=[("Math","Math"),("Science", "Science"),("English", "English"),("Art", "Art"),("Humanities", "Humanities"),("Physical Education (PE)", "Physical Education (PE)"), ("Modern Languages", "Modern Languages"), ("Career Techincal Education(CTE)", "Career Techincal Education(CTE)")], validators=[DataRequired()] )
+    
+
+class TeacherCourseForm(FlaskForm):
+    teacher = SelectField('Teacher',choices=[], validators=[DataRequired()]) 
+    course = SelectField('Course',choices=[], validators=[DataRequired()])
+    course_description = FileField('Course Description', validators=[DataRequired()])
+    course_files = FileField("Insert Files Relevant To The Course (Ex. Syllabus, Examples of Coursework)", validators=[DataRequired()]) 
+
+# Start building out the physical forms. Follow the process you used to create the school tag
+
+
