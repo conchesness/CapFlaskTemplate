@@ -3,7 +3,23 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<script src="todolist.js"></script>
+<link rel="stylesheet" href="local.css">
+
 <h1>To-do List</h1>
 
-
+<div id="todolist">
+    <div id="myDIV" class="header">
+        <h2>My To Do List</h2>
+        <input type="text" id="myInput" placeholder="Title...">
+        <span onclick="newElement()" class="addBtn">Add</span>
+    </div>
+    
+    <ul id="myUL">
+        <li>Homework</li>
+        <li class="checked">Schoolwork</li>
+        <li>Register an account at OTData</li>
+        <li>Study for AP test</li>
+    </ul>
+</div>
 {% endblock %}
