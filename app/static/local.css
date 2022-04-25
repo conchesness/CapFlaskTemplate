@@ -36,7 +36,7 @@
   }
   
   /* Darker background-color on hover */
-  ul li:hover {
+  ul.myUL li:hover {
     background: #ddd;
   }
   
