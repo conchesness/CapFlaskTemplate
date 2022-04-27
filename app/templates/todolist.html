@@ -2,13 +2,14 @@
 
 {% extends 'base.html' %}
 
-{% block body %}
 <script src="todolist.js"></script>
-<link rel="stylesheet" href="todoliststyle.css"/>
+<link rel="stylesheet" type="text/css" href="app\static\todoliststyle.css">
 
-<div class="thelist">
+
+{% block body %}
+
     <div id="myDIV" class="header">
-        <h2>My To Do List</h2>
+        <h2>To Do List</h2>
         <input type="text" id="myInput" placeholder="Title...">
         <span onclick="newElement()" class="addBtn">Add</span>
     </div>
@@ -19,5 +20,5 @@
         <li>Register an account at OTData</li>
         <li>Study for AP test</li>
     </ul>
-</div>
+
 {% endblock %}
