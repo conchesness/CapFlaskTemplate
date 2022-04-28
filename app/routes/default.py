@@ -13,7 +13,3 @@ def aboutus():
 @app.route('/todolist')
 def todolist():
     return render_template('todolist.html')
-
-@app.route('/calculator')
-def calculator():
-    return render_template('calculator.html')
