@@ -9,12 +9,18 @@ from mongoengine.fields import EmailField
 import mongoengine.errors
 from wtforms.validators import URL, NumberRange, Email, Optional, InputRequired, ValidationError, DataRequired, EqualTo
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField, HiddenField, IntegerField, SelectField, FileField, BooleanField
-from app.classes.data import User
+from app.classes.data import CourseGrade, User
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me?')
+    submit = SubmitField()
+
+class GradesForm(FlaskForm):
+    Course = StringField('Course')
+    Grade = SelectField('Grade',choices=[("A","A"),("B","B"),("C","C"),("D","D"),("F","F")])
+    GradePoints = IntegerField('Points')
     submit = SubmitField()
 
 class RegistrationForm(FlaskForm):
