@@ -1,4 +1,3 @@
-from sqlalchemy import delete
 from app import app, login
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
