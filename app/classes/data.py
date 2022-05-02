@@ -4,10 +4,11 @@
 # fields have types like IntField, StringField etc.  This uses the Mongoengine Python Library. When 
 # you interact with the data you are creating an onject that is an instance of the class.
 
+from tokenize import String
 from app import app
 from flask import flash
 from flask_login import UserMixin
-from mongoengine import FileField, EmailField, StringField, ReferenceField, DateTimeField, CASCADE
+from mongoengine import FileField, EmailField, StringField, ReferenceField, DateTimeField, IntField, CASCADE
 from flask_mongoengine import Document
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
@@ -79,4 +80,9 @@ class CourseGrade(Document):
     english = StringField()
     language = StringField()
 
-    
+class Grades(Document):
+    Course = StringField()
+    Student = ReferenceField('User',reverse_delete_rule=CASCADE) 
+    Grade = StringField() 
+    GradePoints = IntField()
+    CreateDate = DateTimeField(default=dt.datetime.utcnow) 
