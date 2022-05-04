@@ -4,7 +4,7 @@
 
 {% if post %}
 
-{{moment(post.createdate).calendar()}} by {{post.author.username}} 
+{{moment(post.create_date).calendar()}} by {{post.author.username}} 
 {% if post.modifydate %}
     modified {{moment(post.modifydate).calendar()}}
 {% endif %}
@@ -37,7 +37,7 @@
             <a href="/comment/delete/{{comment.id}}"><img width="20" src="/static/delete.png"></a> 
             <a href="/comment/edit/{{comment.id}}"><img width="20" src="/static/edit.png"></a>
         {% endif %}
-        {{moment(comment.createdate).calendar()}} {{comment.author.username}} 
+        {{moment(comment.create_date).calendar()}} {{comment.author.username}} 
         {% if comment.modifydate %}
             modified {{moment(comment.modifydate).calendar()}}
         {% endif %}

@@ -88,14 +88,16 @@ class Comment(Document):
 # _____________________ iRate
 
 class Courses(Document): 
-
+    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
     course_number = StringField()
     course_title = StringField()
     course_name = StringField()
     course_ag_requirement = StringField()
     course_difficulty = StringField()
     course_department = StringField()
-    
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
+
     meta = {
         'ordering': ['-createdate']
     }
@@ -105,8 +107,8 @@ class TeacherCourse(Document):
     course = ReferenceField('Courses',reverse_delete_rule=CASCADE)
     course_description = StringField()
     course_files = FileField()
-    createdate = DateTimeField(default=dt.datetime.utcnow)
-    modifydate = DateTimeField()
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
 
     meta = {
         'ordering': ['-createdate']

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if course %}
+
+{{moment(course.create_date).calendar()}} by {{course.author.username}} 
+{% if course.modify_date %}
+    modified {{moment(course.modify_date).calendar()}}
+{% endif %}
+<br>
+    {% if course.author == current_user %}
+        <a data-toggle="tooltip" data-placement="top" title="Delete Post" href="/course/delete/{{course.id}}">
+            <img width="40" class="bottom-image" src="/static/delete.png">
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Edit Post" href="/course/edit/{{course.id}}">
+            <img width="40" class="bottom-image" src="/static/edit.png">
+        </a>
+    {% endif %}
+
+    <h1 class="display-5">{{course.title}}</h1>
+    <p class="fs-3 text-break">
+        {% if course.author.image %}
+            <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(course.author.image.read())}}">
+        {% endif %}
+            <br>
+            <br>
+            <br>
+            <h5 class="mt-5">Course Number:</h5>{{course.course_number}} <br> <br>
+            <h5>Course Name:</h5>{{course.course_name}} <br> <br>
+            <h5>Course A-G Requirement:</h5>{{course.course_ag_requirement}} <br> <br>
+            <h5>Course Difficulty:</h5>{{course.course_difficulty}} <br> <br>
+            <h5>Course Department:</h5>{{course.course_department}}
+
+    </p>
+    <a href="/course/list" class="btn btn-primary btn-sm" role="button">View All Courses</a>
+{% else %}
+    <h1 class="display-5">No Course</h1>
+{% endif %}
+
+{% endblock %}

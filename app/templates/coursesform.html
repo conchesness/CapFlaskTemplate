@@ -4,7 +4,7 @@ copy this one and then edit it. -->
 {% extends "base.html" %}
 
 {% block body %}
-        <h1>Form Page Title</h1>
+        <h1>Courses Form</h1>
 
         <!--List all errors in a group at the top-->
         {% for field in form.errors %}
@@ -17,13 +17,48 @@ copy this one and then edit it. -->
 
         <form method=post>
             {{ form.hidden_tag() }}
-            
-            {{ form.field.label }} <br>
-            {{ form.field(size=64) }}
-            <!--List the errors for this field-->
-            {% for error in form.field.errors %}
+            <p>
+                {{ form.course_number.label }}<br>
+                {{ form.course_number() }}<br>
+                {% for error in form.course_number.errors %}
                 <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.course_title.label }}<br>
+                {{ form.course_title() }}<br>
+                {% for error in form.course_title.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.course_name.label }}<br>
+                {{ form.course_name() }}<br>
+                {% for error in form.course_name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.course_ag_requirement.label }}<br>
+                {{ form.course_ag_requirement() }}<br>
+                {% for error in form.course_ag_requirement.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.course_difficulty.label }}<br>
+                {{ form.course_difficulty() }}<br>
+                {% for error in form.course_difficulty.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.course_department.label }}<br>
+                {{ form.course_department() }}<br>
+                {% for error in form.course_department.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
 
             {{form.submit()}}
         </form>
