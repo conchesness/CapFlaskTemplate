@@ -1,46 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/home">P^5</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/home">Home</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Menu
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="/grades/new">Grades</a></li>
-            <li><a class="dropdown-item" href="/grade/list">Grades List</a></li>
-            <li><a class="dropdown-item" href="/todolist">To-do list</a></li> 
-            <li><a class="dropdown-item" href="/calculator">Calculator</a></li>
-            <li><a class="dropdown-item" href="/stressrelief">Stress relief</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/aboutus">About us</a></li>
-            <li><a class="dropdown-item" href="#"></a></li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        {% if current_user.is_anonymous %}
-        
+<div class="navbar">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/home">P^5</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link" href="/post/list">Posts</a>
           </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="/myprofile">{{ current_user.username }}</a>
-          </li>          
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Menu
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/grades/new">Grades</a></li>
+              <li><a class="dropdown-item" href="/grade/list">Grades list</a></li>
+              <li><a class="dropdown-item" href="/todolist">To-do list</a></li> 
+              <li><a class="dropdown-item" href="/calculator">Calculator</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/aboutus">About us</a></li>
+              <li><a class="dropdown-item" href="#"></a></li>
+            </ul>
           </li>
-          {% endif %}
-        </li>
-      </ul>
+        </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          {% if current_user.is_anonymous %}
+          
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/myprofile">{{ current_user.username }}</a>
+            </li>          
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>

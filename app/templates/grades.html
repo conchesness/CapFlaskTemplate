@@ -4,6 +4,17 @@
 
 {% block body %} 
 {% for grade in grades %}
+<h1>Grades list</h1>
+<style>
+    h1 { background-color: #72788D;  
+       color: white;
+       border:5px solid;
+       border-color: #72788D;
+       border-radius: 10px;
+       }
+</style>
+
+
 <a href="/grade/delete/{{grade.id}}">delete</a> | 
 <a href="/grade/edit/{{grade.id}}">edit</a> <br>
 
