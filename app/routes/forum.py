@@ -99,7 +99,7 @@ def postNew():
             tag = form.tag.data,
             author = current_user.id,
             # This sets the modifydate to the current datetime.
-            modifydate = dt.datetime.utcnow
+            modify_date = dt.datetime.utcnow
         )
         # This is a method that saves the data to the mongoDB database.
         newPost.save()
@@ -142,7 +142,7 @@ def postEdit(postID):
             subject = form.subject.data,
             content = form.content.data,
             tag = form.tag.data,
-            modifydate = dt.datetime.utcnow
+            modify_date = dt.datetime.utcnow
         )
         # After updating the document, send the user to the updated post using a redirect.
         return redirect(url_for('post',postID=postID))
