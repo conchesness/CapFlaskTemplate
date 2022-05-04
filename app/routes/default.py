@@ -14,3 +14,7 @@ def aboutus():
 @app.route('/todolist')
 def todolist():
     return render_template('todolist.html')
+
+@app.route('/stressrelief')
+def stressrelief():
+    return render_template('stressrelief.html')
