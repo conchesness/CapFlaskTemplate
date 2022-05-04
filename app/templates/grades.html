@@ -3,7 +3,6 @@
 {% extends 'base.html' %}
 
 {% block body %} 
-{% for grade in grades %}
 <h1>Grades list</h1>
 <style>
     h1 { background-color: #72788D;  
@@ -15,6 +14,8 @@
 </style>
 
 <p>This page is used to keep track of your grades. This helps you keep track of where you are versus where you need to be. Add new ones under <strong>grades</strong>.</p>
+
+{% for grade in grades %}
 
 
 <a class="btn btn-primary" href="/grade/delete/{{grade.id}}" role="button">Delete</a>
