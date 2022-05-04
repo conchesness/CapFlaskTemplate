@@ -18,7 +18,7 @@
         </a>
     {% endif %}
 
-    <h1 class="display-5">{{course.title}}</h1>
+    <h1 class="display-5">{{course.course_title}}</h1>
     <p class="fs-3 text-break">
         {% if course.author.image %}
             <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(course.author.image.read())}}">
@@ -34,6 +34,7 @@
 
     </p>
     <a href="/course/list" class="btn btn-primary btn-sm" role="button">View All Courses</a>
+    <a href="/course/new" class="btn btn-primary btn-sm" role="button">Add New Course</a>
 {% else %}
     <h1 class="display-5">No Course</h1>
 {% endif %}
