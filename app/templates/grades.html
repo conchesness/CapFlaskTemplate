@@ -4,6 +4,19 @@
 
 {% block body %} 
 {% for grade in grades %}
+<h1>Grades list</h1>
+<style>
+    h1 { background-color: #72788D;  
+       color: white;
+       border:5px solid;
+       border-color: #72788D;
+       border-radius: 10px;
+       }
+</style>
+
+<p>This page is used to keep track of your grades. This helps you keep track of where you are versus where you need to be. Add new ones under <strong>grades</strong>.</p>
+
+
 <a href="/grade/delete/{{grade.id}}">delete</a> | 
 <a href="/grade/edit/{{grade.id}}">edit</a> <br>
 

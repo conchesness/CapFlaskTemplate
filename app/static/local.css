@@ -5,3 +5,14 @@
 body{
     background-color: #E3D7FF;
 }
+
+.navbar {
+    background-color: #AFA2FF;
+}
+
+h1 { background-color: #72788D;  
+    color: white;
+    border:5px solid;
+    border-color: #72788D;
+    border-radius: 10px;
+}

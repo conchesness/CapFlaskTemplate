@@ -4,15 +4,18 @@ copy this one and then edit it. -->
 {% extends "base.html" %}
 
 {% block body %}
-        <h1>Form Page Title</h1>
+        <h1>Grades</h1>
         <style>
-             h1 { background-color: rgb(233, 0, 0);  
+             h1 { background-color: #72788D;  
                 color: white;
-    }
+                border:5px solid;
+                border-color: #72788D;
+                border-radius: 10px;
+                }
         </style>
           
         
-        }
+        <p>Use this page to add your current grades to our grades database. This helps you keep track of where you are versus where you need to be. View your grades under <strong>grades list</strong>.</p>
 
         <!--List all errors in a group at the top-->
         {% for field in form.errors %}
