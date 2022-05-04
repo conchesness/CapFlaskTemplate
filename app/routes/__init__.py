@@ -5,4 +5,3 @@ from .mail import *
 from .user import *
 from .calculator import *
 from .grades import *
-from .stressrelief import*
