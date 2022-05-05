@@ -166,45 +166,45 @@ def postEdit(postID):
 # about how comments are related to posts.  Additionally, take a look at data.py to see how the
 # relationship is defined in the Post and the Comment collections.
 
-@app.route('/comment/new/<postID>', methods=['GET', 'POST'])
-@login_required
-def commentNew(postID):
-    post = Post.objects.get(id=postID)
-    form = CommentForm()
-    if form.validate_on_submit():
-        newComment = Comment(
-            author = current_user.id,
-            post = postID,
-            content = form.content.data
-        )
-        newComment.save()
-        return redirect(url_for('post',postID=postID))
-    return render_template('commentform.html',form=form,post=post)
+# @app.route('/comment/new/<postID>', methods=['GET', 'POST'])
+# @login_required
+# def commentNew(postID):
+#     post = Post.objects.get(id=postID)
+#     form = CommentForm()
+#     if form.validate_on_submit():
+#         newComment = Comment(
+#             author = current_user.id,
+#             post = postID,
+#             content = form.content.data
+#         )
+#         newComment.save()
+#         return redirect(url_for('post',postID=postID))
+#     return render_template('commentform.html',form=form,post=post)
 
-@app.route('/comment/edit/<commentID>', methods=['GET', 'POST'])
-@login_required
-def commentEdit(commentID):
-    editComment = Comment.objects.get(id=commentID)
-    if current_user != editComment.author:
-        flash("You can't edit a comment you didn't write.")
-        return redirect(url_for('post',postID=editComment.post.id))
-    post = Post.objects.get(id=editComment.post.id)
-    form = CommentForm()
-    if form.validate_on_submit():
-        editComment.update(
-            content = form.content.data,
-            modifydate = dt.datetime.utcnow
-        )
-        return redirect(url_for('post',postID=editComment.post.id))
+# @app.route('/comment/edit/<commentID>', methods=['GET', 'POST'])
+# @login_required
+# def commentEdit(commentID):
+#     editComment = Comment.objects.get(id=commentID)
+#     if current_user != editComment.author:
+#         flash("You can't edit a comment you didn't write.")
+#         return redirect(url_for('post',postID=editComment.post.id))
+#     post = Post.objects.get(id=editComment.post.id)
+#     form = CommentForm()
+#     if form.validate_on_submit():
+#         editComment.update(
+#             content = form.content.data,
+#             modifydate = dt.datetime.utcnow
+#         )
+#         return redirect(url_for('post',postID=editComment.post.id))
 
-    form.content.data = editComment.content
+#     form.content.data = editComment.content
 
-    return render_template('commentform.html',form=form,post=post)   
+#     return render_template('commentform.html',form=form,post=post)   
 
-@app.route('/comment/delete/<commentID>')
-@login_required
-def commentDelete(commentID): 
-    deleteComment = Comment.objects.get(id=commentID)
-    deleteComment.delete()
-    flash('The comments was deleted.')
-    return redirect(url_for('post',postID=deleteComment.post.id)) 
+# @app.route('/comment/delete/<commentID>')
+# @login_required
+# def commentDelete(commentID): 
+#     deleteComment = Comment.objects.get(id=commentID)
+#     deleteComment.delete()
+#     flash('The comments was deleted.')
+#     return redirect(url_for('post',postID=deleteComment.post.id)) 

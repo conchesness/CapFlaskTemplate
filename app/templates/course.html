@@ -3,7 +3,7 @@
 {% block body %}
 
 {% if course %}
-
+<div class="col-sm">
 {{moment(course.create_date).calendar()}} by {{course.author.username}} 
 {% if course.modify_date %}
     modified {{moment(course.modify_date).calendar()}}
@@ -33,8 +33,36 @@
             <h5>Course Department:</h5>{{course.course_department}}
 
     </p>
-    <a href="/course/list" class="btn btn-primary btn-sm" role="button">View All Courses</a>
-    <a href="/course/new" class="btn btn-primary btn-sm" role="button">Add New Course</a>
+
+
+      <a href="/course/list" class="btn btn-primary btn-sm"  role="button">View All Courses</a>
+      <a href="/course/new" class="btn btn-primary btn-sm"  role="button">Add New Course</a>
+      <a href="/comment/new/{{course.id}}" class="btn btn-primary btn-sm" role="button">New Comment</a>
+
+
+
+</div>
+    <div class="ms-5 mt-5 col-2">
+        {% if comments %}
+        <h1 class="display-5">Comments</h1>
+        {% for comment in comments %}
+            {% if current_user == comment.author %}
+                <a href="/comment/delete/{{comment.id}}"><img width="20" src="/static/delete.png"></a> 
+                <a href="/comment/edit/{{comment.id}}"><img width="20" src="/static/edit.png"></a>
+            {% endif %}
+            {{moment(comment.create_date).calendar()}} {{comment.author.username}} 
+            {% if comment.modifydate %}
+                modified {{moment(comment.modifydate).calendar()}}
+            {% endif %}
+            <br>
+            <p class="fs-3">
+                {{comment.content}}
+            </p>
+        {% endfor %}
+        {% else %}
+            <h1 class="display-5">No Comments</h1>
+        {% endif %}
+        </div>
 {% else %}
     <h1 class="display-5">No Course</h1>
 {% endif %}

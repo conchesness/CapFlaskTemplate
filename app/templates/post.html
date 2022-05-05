@@ -3,7 +3,7 @@
 {% block body %}
 
 {% if post %}
-
+<div class="col-2">
 {{moment(post.create_date).calendar()}} by {{post.author.username}} 
 {% if post.modifydate %}
     modified {{moment(post.modifydate).calendar()}}
@@ -28,8 +28,8 @@
 
     </p>
     <a href="/comment/new/{{post.id}}" class="btn btn-primary btn-sm" role="button">New Comment</a>
-
-    <div class="ms-5">
+</div>
+    <div class="ms-5 col-2">
     {% if comments %}
     <h1 class="display-5">Comments</h1>
     {% for comment in comments %}
