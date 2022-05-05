@@ -77,10 +77,8 @@ class CoursesForm(FlaskForm):
     course_name = StringField('Course Name', validators=[DataRequired()])
     course_ag_requirement = SelectField('Courses A-G Requirement',choices=[("A- History","A- History"),("B- English", "B- English"), ("C- Mathematics","C- Mathematics"), ("D- Science","D- Science"), ("E- Language Other Than English","E- Language Other Than English"), ("F- Visual And Performing Arts","F- Visual And Performing Arts"), ("G- College-Preparatory Elective","G- College-Preparatory Elective")],validators=[DataRequired()])
     course_difficulty = SelectField('Course Difficulty',choices=[("Advanced Placement (AP)","Advanced Placement (AP)"),("Honors (HP)", "Honors (HP)"),("College Prep (CP)","College Prep (CP)")], validators=[DataRequired()])
-    course_department = SelectField('Course Department',choices=[("Math","Math"),("Science", "Science"),("English", "English"),("Art", "Art"),("Humanities", "Humanities"),("Physical Education (PE)", "Physical Education (PE)"), ("Modern Languages", "Modern Languages"), ("Career Techincal Education(CTE)", "Career Techincal Education(CTE)")], validators=[DataRequired()] )
+    course_department = SelectField('Course Department',choices=[("Math","Math"),("Science", "Science"),("English", "English"),("Visual And Performing Arts", "Visual And Performing Arts"),("History", "History"),("Physical Education (PE)", "Physical Education (PE)"), ("World Languages", "World Languages"), ("Career Techincal Education(CTE)", "Career Techincal Education(CTE)")], validators=[DataRequired()] )
     submit = SubmitField('Add Course')
-
-    
 
 class TeacherCourseForm(FlaskForm):
     teacher = SelectField('Teacher',choices=[], validators=[DataRequired()]) 
