@@ -2,8 +2,8 @@ from app import app
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
-from app.classes.data import Courses
-from app.classes.forms import CoursesForm
+from app.classes.data import Courses, Comment
+from app.classes.forms import CoursesForm, CommentForm
 from flask_login import login_required
 import datetime as dt
 
@@ -12,7 +12,8 @@ import datetime as dt
 @login_required
 def course(courseID):
     thisCourse = Courses.objects.get(id=courseID)
-    return render_template('course.html',course=thisCourse)
+    theseComments = Comment.objects(course=thisCourse)
+    return render_template('course.html',course=thisCourse, comments=theseComments)
 
 @app.route('/course/list')
 @login_required
@@ -137,3 +138,46 @@ def courseDelete(courseID):
     course = Courses.objects()  
     # Send the user to the list of remaining posts.
     return render_template('courses.html',courses=course)
+
+@app.route('/comment/new/<courseID>', methods=['GET', 'POST'])
+@login_required
+def commentNew(courseID):
+    course = Courses.objects.get(id=courseID)
+    form = CommentForm()
+    if form.validate_on_submit():
+        newComment = Comment(
+            author = current_user.id,
+            course = courseID,
+            content = form.content.data
+        )
+        newComment.save()
+        return redirect(url_for('course',courseID=courseID))
+    return render_template('commentform.html',form=form,course=course)
+
+@app.route('/comment/edit/<commentID>', methods=['GET', 'POST'])
+@login_required
+def commentEdit(commentID):
+    editComment = Comment.objects.get(id=commentID)
+    if current_user != editComment.author:
+        flash("You can't edit a comment you didn't write.")
+        return redirect(url_for('post',courseID=editComment.course.id))
+    course = Courses.objects.get(id=editComment.course.id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        editComment.update(
+            content = form.content.data,
+            modify_date = dt.datetime.utcnow
+        )
+        return redirect(url_for('course',courseID=editComment.course.id))
+
+    form.content.data = editComment.content
+
+    return render_template('commentform.html',form=form,course=course)   
+
+@app.route('/comment/delete/<commentID>')
+@login_required
+def commentDelete(commentID): 
+    deleteComment = Comment.objects.get(id=commentID)
+    deleteComment.delete()
+    flash('The comments was deleted.')
+    return redirect(url_for('course',courseID=deleteComment.course.id)) 
