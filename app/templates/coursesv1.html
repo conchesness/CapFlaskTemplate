@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-4">
+        <h1 class="display-1">All Courses</h1>
+    </div>
+    <div class="col">
+        <a href="/course/new" class="btn btn-primary btn-sm mt-5" role="button">New Course</a>
+    </div>
+</div>
+
+{% if courses %}
+    {% for course in courses %}
+        <div class="row border-bottom">
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                <h3 class="display-5">Date</h3>
+                {% endif %}
+
+                <a href="/course/{{course.id}}">
+                    {{moment(course.create_date).calendar()}}
+                </a>
+            </div>
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                <h3 class="display-5">User</h3>
+                {% endif %}
+                {{course.author.username}}
+            </div>
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                    <h3 class="display-5">Title</h3>
+                {% endif %}
+                {{course.course_title}}
+            </div>
+            <div class="col-3">
+                {% if loop.index == 1 %}
+                    <h3 class="display-5">Department</h3>
+                {% endif %}
+                {{course.course_department}}
+            </div>
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                    <h3 class="display-5">Difficulty</h3>
+                {% endif %}
+                {{course.course_difficulty}}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <h1>No Courses</h1>
+{% endif %}
+
+{% endblock %}
