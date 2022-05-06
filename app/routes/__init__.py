@@ -3,5 +3,5 @@ from .login import *
 from .forum import *
 from .mail import *
 from .user import *
-#from .calculator import *
+#from .calculato import *
 from .grades import *
