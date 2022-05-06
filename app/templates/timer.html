@@ -1,10 +1,16 @@
-<!-- This is a blank template.  You can copy this to make a new template page. -->
-
 {% extends 'base.html' %}
 
 {% block body %}
+    <link href="/static/stopwatch.css" rel="stylesheet">
+    <script src="/static/stopwatch.js"></script>
+    <div id="stopwatch">
+      <!-- CURRENT TIME -->
+      <div id="sw-time">00:00:00</div>
 
-<h1>Timer</h1>
+      <!-- CONTROLS -->
+      <input type="button" value="Reset" id="sw-rst" disabled/>
+      <input type="button" value="Start" id="sw-go" disabled/>
+    </div>
 
-
+    
 {% endblock %}
