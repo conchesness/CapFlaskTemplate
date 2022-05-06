@@ -19,6 +19,8 @@ def todolist():
 def stressrelief():
     return render_template('stressrelief.html')
 
-# @app.route('/timer')
-# def timer():
-#     return render_template('timer.html')
+
+@app.route('/timer')
+def timer():
+    #timer
+    return render_template('timer.html')
