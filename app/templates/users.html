@@ -1,0 +1,13 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Users</h1>
+{% for user in users %}
+
+<a href="/user/delete/{{user.id}}"><img width="20" src="/static/delete.png"></a>
+{{user.role}} {{user.teacher_number}} {{user.fname}} {{user.lname}} {{user.email}} <br>
+
+{% endfor %}
+{% endblock %}

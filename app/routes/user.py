@@ -56,12 +56,12 @@ def profileEdit():
 
     return render_template('profileform.html', form=form)
 
-@app.route('/teacherlist')
+@app.route('/userlist')
 @login_required
 def teacherList():
     if current_user.isadmin:
-        teachers = User.objects()
-        return render_template('teachers.html',teachers=teachers)
+        users = User.objects()
+        return render_template('users.html',users=users)
     else:
         flash("You must be an admin to see this page.")
         return redirect(url_for('index'))

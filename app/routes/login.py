@@ -128,15 +128,20 @@ def callback():
     try:
         thisUser=User.objects.get(email=gmail)
     except:
-        thisUser = User(
-            gid=gid, 
-            gname=gname, 
-            email=gmail, 
-            gprofile_pic=gprofile_pic,
-            fname = gfname,
-            lname = glname
-        )
-        thisUser.save()
+        if gmail in admins:
+            thisUser = User(
+                gid=gid, 
+                gname=gname, 
+                email=gmail, 
+                gprofile_pic=gprofile_pic,
+                fname = gfname,
+                lname = glname
+            )
+            thisUser.save()
+        else:
+            flash("You need an account to log in to this site.")
+            return redirect(url_for('/index'))
+
     else:
         thisUser.update(
             gid=gid, 
