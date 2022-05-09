@@ -117,10 +117,10 @@ def callback():
     if userinfo_response.json().get("email_verified"):
         gid = userinfo_response.json()["sub"]
         gmail = userinfo_response.json()["email"]
-        picture = userinfo_response.json()["picture"]
+        gprofile_pic = userinfo_response.json()["picture"]
         gname = userinfo_response.json()["name"]
-        fname = userinfo_response.json()["given_name"]
-        lname = userinfo_response.json()["family_name"]
+        gfname = userinfo_response.json()["given_name"]
+        glname = userinfo_response.json()["family_name"]
     else:
         return "User email not available or not verified by Google.", 400
 
@@ -132,18 +132,18 @@ def callback():
             gid=gid, 
             gname=gname, 
             email=gmail, 
-            gprofile_pic=picture,
-            fname = fname,
-            lname = lname
+            gprofile_pic=gprofile_pic,
+            fname = gfname,
+            lname = glname
         )
         thisUser.save()
     else:
         thisUser.update(
             gname=gname, 
             email=gmail, 
-            gprofile_pic=picture,
-            fname = fname,
-            lname = lname
+            gprofile_pic=gprofile_pic,
+            fname = gfname,
+            lname = glname
         )
     thisUser.reload()
     if thisUser.email in admins and not thisUser.isadmin:

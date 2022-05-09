@@ -23,7 +23,7 @@ from time import time
 
 class User(UserMixin, Document):
     createdate = DateTimeField(defaultdefault=dt.datetime.utcnow)
-    gid = StringField()
+    gid = StringField(sparse=True,unique=True)
     gname = StringField()
     gprofile_pic = StringField()
     isadmin = BooleanField(default=False)
@@ -38,7 +38,7 @@ class User(UserMixin, Document):
     prononuns = StringField()
     
     # Below Is All The Teacher Keys
-    teacher_number = IntField()
+    teacher_number = IntField(sparse=True,unique=True)
     troom_number = StringField()
     tdescription = StringField()
     tacademy = StringField()
