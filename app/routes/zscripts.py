@@ -1,4 +1,3 @@
-import this
 from flask.helpers import url_for
 from flask_login import current_user
 from app import app
