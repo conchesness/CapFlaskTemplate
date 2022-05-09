@@ -107,7 +107,7 @@ def callback():
     # 'hd': 'ousd.org'
     # }
 
-    if userinfo_response.json().get("hd") != "ousd.org":
+    if userinfo_response.json().get("hd") != "ousd.org" and current_user.email not in admins:
         flash("You must have an ousd.org email account to access this site.")
         return "You must have an ousd.org email account to access this site.", 400
 
@@ -115,8 +115,8 @@ def callback():
     # The user authenticated with Google, authorized our
     # app, and now we've verified their email through Google!
     if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
-        users_email = userinfo_response.json()["email"]
+        gid = userinfo_response.json()["sub"]
+        gmail = userinfo_response.json()["email"]
         picture = userinfo_response.json()["picture"]
         gname = userinfo_response.json()["name"]
         fname = userinfo_response.json()["given_name"]
@@ -126,20 +126,21 @@ def callback():
 
     # Get user from DB or create new user
     try:
-        thisUser=User.objects.get(gid=unique_id)
+        thisUser=User.objects.get(gid=gid)
     except:
-        user = User(
-            gid=unique_id, 
+        thisUser = User(
+            gid=gid, 
             gname=gname, 
-            email=users_email, 
+            email=gmail, 
             gprofile_pic=picture,
             fname = fname,
             lname = lname
-        ).save()
+        )
+        thisUser.save()
     else:
         thisUser.update(
             gname=gname, 
-            email=users_email, 
+            email=gmail, 
             gprofile_pic=picture,
             fname = fname,
             lname = lname
