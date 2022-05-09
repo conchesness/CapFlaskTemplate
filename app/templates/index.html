@@ -1,7 +1,104 @@
 {% extends 'base.html' %}
 
+
 {% block body %}
+<!--Header/Hero -->
+<div class="jumbotron bg-cover text-white">
+    <div class="container py-5 text-center">
+        <h1 class="display-3 font-weight-bold text-gradient">Welcome to iRate!</h1>
+        <p class="h4 font-italic text-gradient mb-0 py-3">Enter your a subject or a teacher's name to get started </p>
+        <div class="ml-5 py-3" style="width: 50%; margin-left: 25%">
+                <div class="input-group px-5">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <a href="/course/list">
+                    <button type="button" class="btn btn-primary">search</button>
+                    </a>
+                </div>
+        </div>   
+        <p class="font-italic py-3 text-gradient">Search by
+            <a href="#" class="text-white">
+                <u>Subject</u>
+            </a>
+        </p>
+    </div>
+</div>
 
-<h1>Hello World</h1>
+<!-- Explainer Text -->
+<div class="container text-left py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 mb-3">
+            <h2 class="h3 text-center font-weight-bold py-2">How it works?</h2>
+            <hr style="margin: auto">
+            <p class="font-italic text-muted text-center px-5">Teachers at your school input their course information, philosophy, and methods. iRate presents these reports in an easy-to-use site where students can find their potential teachers, courses, dual enrollment/online options, and leave ratings. This outlet for students and teachers will inspire change due to accountability and assist in students taking a better path for their education journey. iRate’s purpose is to improve teacher-student relationships at Oakland Tech, one evaluation at a time. 
+            </p>
+           
+        </div>
+    </div>
+</div>
+<div class="container text-right py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 mb-1">
+            <h2 class="h3 text-center font-weight-bold py-2">User Guidelines</h2>
+            <hr style = "margin: auto;"class="px-5">
+            <p class="font-italic text-muted text-center px-5">iRate wants to create a safe, productive environment for both students and teachers. This app is an opportunity for teachers to advertise their classes and teachings to students. This course catalog provides the information needed for an independent student, if the options provided by iRate are not sufficient feel free to contact us.
+            </p>
+        </div>
+    </div>
+</div>
 
+<!-- Features Section -->
+  <section class="features">
+    <h2 class="h3 text-center font-weight-bold py-2">Features</h2>
+    <hr>
+    <ul class="grid">
+      <li>
+        <i class="fa fa-compass fa-4x"></i>
+        <h4>Course Catalog</h4>
+        <p>Course description, teacher, room #, expectations, and alternatives will be accessible. Students can download the syllabus and comprehend what the classes have to offer. 
+        </p>
+      </li>
+      <li>
+        <i class="fa fa-camera-retro fa-4x"></i>
+        <h4>Teacher Contract</h4>
+        <p>This feature provides teachers emails, office hours, and google classroom information for students to digest.
+        </p>
+      </li>
+      <li>
+        <i class="fa fa-bicycle fa-4x"></i>
+        <h4>Teacher rating
+        </h4>
+        <p>iRate will provide a safe space for students to leave simple ratings on their teachers. The difficulty, how likely would you recommend, quality, type of grading, and textbook use will be just some of the parameters students can rate. Inappropriate reviews will be dealt with swiftly, as our biggest focus is benefitting student-teacher relationships in the purest way possible. This will lead to the pavement of better educational pathways for all deserving high schoolers in our city of Oakland.
+        </p>
+      </li>
+      <li>
+        <i class="fa fa-flag-checkered fa-4x"></i>
+        <h4>Take Control</h4>
+        <p>​​A new level of independence will be gained through iRate. Through our app students can take control of their education. They can enter their classes more prepared than ever and make decisions that are right for their educational needs.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h3 class="title">Testimonials from our Students and Teachers:</h3>
+    <hr>
+    <p class="quote text-center">iRate really helped me choose the best courses to further my education, would highly reccomed for incoming highchschoolers</p>
+    <p class="author">- Albert Herter (Student)</p>
+    <p class="quote text-center">This website benefited me and my students greatly. iRate allowed my students to be exited and prepared for my courses which made my job as a teacher much easier.  </p>
+    <p class="author">- Sharon Rosenberg (Teacher)</p>
+    <p class="quote text-center">Through highschool I had many bad teachers, iRate allowed me to find alternate better courses and gave me a chance to share my experience with certain teachers with thier evalutations.10/10 </p>
+    <p class="author text-center">- Luis Mendoza (Student)</p>
+  </section>
+
+ <!-- Email Collection Section -->
+  <section class="contact">
+    <h3 class="title">Learn more</h3>
+    <p class="px-5">Want to know about upcoming changes and updates to the site? Just sign up for our mailing list. No spam from us, we promise!</p>
+    <hr>
+    <form>
+      <input type="email" placeholder="Email">
+      <a href="#" class="btn btn-primary">Subscribe now</a>
+    </form>
+  </section>
 {% endblock %}

@@ -11,6 +11,8 @@ import mongoengine.errors
 from app.classes.forms import ResetPasswordRequestForm
 from .mail import send_email
 
+admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org", "leke.steve@gmail.com"]
+
 # This function is called by other functions to load the current user in to memory
 @login.user_loader
 def load_user(id):
@@ -34,10 +36,16 @@ def login():
         except mongoengine.errors.DoesNotExist:
             flash('Invalid username or password')
             return redirect(url_for('login'))
+        except Exception as error:
+            flash(f'An error has occurred: {error}')
+            return redirect(url_for('login'))
         else:
             if user is None or not user.check_password(form.password.data):
                 flash('Invalid username or password')
                 return redirect(url_for('login'))
+            else:
+                if user.email in admins and not user.isadmin:
+                    user.update(isadmin=True)
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':

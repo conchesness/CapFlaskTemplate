@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if course %}
+<div class="col-sm">
+{{moment(course.create_date).calendar()}} by {{course.author.username}} 
+{% if course.modify_date %}
+    modified {{moment(course.modify_date).calendar()}}
+{% endif %}
+<br>
+    {% if current_user.isadmin %}
+        <a data-toggle="tooltip" data-placement="top" title="Delete Post" href="/course/delete/{{course.id}}">
+            <img width="40" class="bottom-image" src="/static/delete.png">
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Edit Post" href="/course/edit/{{course.id}}">
+            <img width="40" class="bottom-image" src="/static/edit.png">
+        </a>
+    {% endif %}
+
+    <h1 class="display-5">{{course.course_title}}</h1>
+    <p class="fs-3 text-break">
+        {% if course.author.image %}
+            <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(course.author.image.read())}}">
+        {% endif %}
+            <h5 class="mt-5">Course Number:</h5>{{course.course_number}} <br> 
+            <h5>Course Name:</h5>{{course.course_name}} <br> 
+            <h5>Course A-G Requirement:</h5>{{course.course_ag_requirement}} <br> 
+            <h5>Course Difficulty:</h5>{{course.course_difficulty}} <br> 
+            <h5>Course Department:</h5>{{course.course_department}} <br>
+            
+            {% if teacherCourses %}
+            <h5>Teachers</h5>
+                {% for tcourse in teacherCourses %}
+                    <a href="/teachercourse/{{tcourse.id}}">{{tcourse.teacher.fname}} {{tcourse.teacher.lname}}</a> <br>
+                {% endfor %}
+            {% endif %}
+    </p>
+
+      <a href="/course/list" class="btn btn-primary btn-sm"  role="button">View All Courses</a>
+      <a href="/course/new" class="btn btn-primary btn-sm"  role="button">Add New Course</a>
+      <a href="/comment/new/{{course.id}}" class="btn btn-primary btn-sm" role="button">New Comment</a>
+
+</div>
+    <div class="ms-5 mt-5 col-2">
+        {% if comments %}
+        <h1 class="display-5">Comments</h1>
+        {% for comment in comments %}
+            {% if current_user == comment.author %}
+                <a href="/comment/delete/{{comment.id}}"><img width="20" src="/static/delete.png"></a> 
+                <a href="/comment/edit/{{comment.id}}"><img width="20" src="/static/edit.png"></a>
+            {% endif %}
+            {{moment(comment.create_date).calendar()}} {{comment.author.username}} 
+            {% if comment.modifydate %}
+                modified {{moment(comment.modifydate).calendar()}}
+            {% endif %}
+            <br>
+            <p class="fs-3">
+                {{comment.content}}
+            </p>
+        {% endfor %}
+        {% else %}
+            <h1 class="display-5">No Comments</h1>
+        {% endif %}
+        </div>
+{% else %}
+    <h1 class="display-5">No Course</h1>
+{% endif %}
+
+{% endblock %}
