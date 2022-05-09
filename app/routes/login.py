@@ -11,7 +11,7 @@ import mongoengine.errors
 from app.classes.forms import ResetPasswordRequestForm
 from .mail import send_email
 
-admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org", "leke.steve@gmail.com"]
+admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org", "leke.steve@gmail.com", "s_benjamin.mansell@ousd.org"]
 
 # This function is called by other functions to load the current user in to memory
 @login.user_loader
