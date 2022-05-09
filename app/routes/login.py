@@ -1,20 +1,37 @@
-# These are the routes for logging in a a user and dealing with passwords
 
-from flask_login.utils import login_required
-from app import app, login
-from werkzeug.urls import url_parse 
-from flask import render_template, redirect, flash, url_for, request
+# Python standard libraries
+import json
+from app import app, login_manager
+from flask import redirect, request, url_for, flash
+from flask_login import (
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+from oauthlib.oauth2 import WebApplicationClient
+import requests
 from app.classes.data import User
-from app.classes.forms import LoginForm, RegistrationForm, ResetPasswordForm
-from flask_login import current_user, login_user, logout_user
+from app.utils.secrets import getSecrets
 import mongoengine.errors
-from app.classes.forms import ResetPasswordRequestForm
-from .mail import send_email
 
 admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org"]
 
-# This function is called by other functions to load the current user in to memory
-@login.user_loader
+#get all the credentials for google
+secrets = getSecrets()
+
+# OAuth2 client setup
+client = WebApplicationClient(secrets['GOOGLE_CLIENT_ID'])
+
+# When a route is decorated with @login_required and fails this code is run
+# https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.unauthorized_handler
+@login_manager.unauthorized_handler
+def unauthorized():
+    return "You must be logged in to access this content.", 403
+
+# Flask-Login helper to retrieve a user object from our db
+# https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
+@login_manager.user_loader
 def load_user(id):
     try:
         return User.objects.get(pk=id)
@@ -22,117 +39,123 @@ def load_user(id):
         flash("Something strange has happened. This user doesn't exist. Please click logout.")
         return redirect(url_for('index'))
 
-# This is the route that a user uses to login
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    # this if statement can be really useful to see if the user that is requesting this
-    # page is currently loggedin 
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        try:
-            user = User.objects.get(username=form.username.data)
-        except mongoengine.errors.DoesNotExist:
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        except Exception as error:
-            flash(f'An error has occurred: {error}')
-            return redirect(url_for('login'))
-        else:
-            if user is None or not user.check_password(form.password.data):
-                flash('Invalid username or password')
-                return redirect(url_for('login'))
-            else:
-                if user.email in admins and not user.isadmin:
-                    user.update(isadmin=True)
-        login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+def get_google_provider_cfg():
+    return requests.get(secrets['GOOGLE_DISCOVERY_URL']).json()
 
-# Logout route and function
-@app.route('/logout')
+@app.route("/login")
+def login():
+    # Find out what URL to hit for Google login
+    google_provider_cfg = get_google_provider_cfg()
+    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+
+    # Use library to construct the request for login and provide
+    # scopes that let you retrieve user's profile from Google
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=request.base_url + "/callback",
+        scope=["openid", "email", "profile"],
+        prompt="select_account"
+    )
+    return redirect(request_uri)
+
+
+@app.route("/login/callback")
+def callback():
+    # Get authorization code Google sent back to you
+    code = request.args.get("code")
+
+    # Find out what URL to hit to get tokens that allow you to ask for
+    # things on behalf of a user
+    google_provider_cfg = get_google_provider_cfg()
+    token_endpoint = google_provider_cfg["token_endpoint"]
+
+    # Prepare and send request to get tokens! Yay tokens!
+    token_url, headers, body = client.prepare_token_request(
+        token_endpoint,
+        authorization_response=request.url,
+        redirect_url=request.base_url,
+        code=code,
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(secrets['GOOGLE_CLIENT_ID'], secrets['GOOGLE_CLIENT_SECRET']),
+    )
+
+    # Parse the tokens!
+    client.parse_request_body_response(json.dumps(token_response.json()))
+
+    # Now that we have tokens (yay) let's find and hit URL
+    # from Google that gives you user's profile information,
+    # including their Google Profile Image and Email
+    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+    uri, headers, body = client.add_token(userinfo_endpoint)
+    userinfo_response = requests.get(uri, headers=headers, data=body)
+
+    ### Example info that comes back from google
+    # userinfo_response.json() --> {
+    # 'sub': '118043475517321263044', 
+    # 'name': 'STEPHEN WRIGHT', 
+    # 'given_name': 'STEPHEN', 
+    # 'family_name': 'WRIGHT', 
+    # 'profile': 'https://plus.google.com/118043475517321263044', 
+    # 'picture': 'https://lh3.googleusercontent.com/a-/AOh14GiaVFKJoTd0DhTprTOa4K9Smeeaucy9ksWQx18FOA=s96-c', 
+    # 'email': 'stephen.wright@ousd.org', 
+    # 'email_verified': True, 
+    # 'locale': 'en', 
+    # 'hd': 'ousd.org'
+    # }
+
+    if userinfo_response.json().get("hd") != "ousd.org":
+        flash("You must have an ousd.org email account to access this site.")
+        return "You must have an ousd.org email account to access this site.", 400
+
+    # We want to make sure their email is verified.
+    # The user authenticated with Google, authorized our
+    # app, and now we've verified their email through Google!
+    if userinfo_response.json().get("email_verified"):
+        unique_id = userinfo_response.json()["sub"]
+        users_email = userinfo_response.json()["email"]
+        picture = userinfo_response.json()["picture"]
+        gname = userinfo_response.json()["name"]
+        fname = userinfo_response.json()["given_name"]
+        lname = userinfo_response.json()["family_name"]
+    else:
+        return "User email not available or not verified by Google.", 400
+
+    # Get user from DB or create new user
+    try:
+        thisUser=User.objects.get(gid=unique_id)
+    except:
+        user = User(
+            gid=unique_id, 
+            gname=gname, 
+            email=users_email, 
+            gprofile_pic=picture,
+            fname = fname,
+            lname = lname
+        ).save()
+    else:
+        thisUser.update(
+            gname=gname, 
+            email=users_email, 
+            gprofile_pic=picture,
+            fname = fname,
+            lname = lname
+        )
+    thisUser.reload()
+    if thisUser.email in admins and not thisUser.isadmin:
+        thisUser.update(isadmin=True)
+
+    # Begin user session by logging the user in
+    login_user(thisUser)
+
+    # Send user back to homepage
+    return redirect(url_for("index"))
+
+
+@app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('index'))
-
-# Route and function to register a new account
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        newUser = User(
-            username=form.username.data, 
-            fname=form.fname.data,
-            lname=form.lname.data,
-            email=form.email.data
-            )
-        newUser.save()
-        newUser.set_password(form.password.data)
-        newUser.save()
-
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
-
-    return render_template('register.html', title='Register', form=form)
-
-# The following functions are for password reset
-# This is a helper function that sends a password reset email to a user who has requested
-# This funtion does not have a route and is called by other functions.
-def send_password_reset_email(user):
-    token = user.get_reset_password_token()
-    send_email('[Capstone] Reset Your Password',
-               sender='swright@ousd.org',
-               recipients=[user.email],
-               text_body=render_template('email/reset_password.txt',
-                                         user=user, token=token),
-               html_body=render_template('email/reset_password.html',
-                                         user=user, token=token))
-
-# This is the password reset route and function. This function is called when the 
-# user requests a password reset
-@app.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    try:
-        user = User.verify_reset_password_token(token)
-    except mongoengine.errors.DoesNotExist:
-        flash("I was unable to reset your password.")
-        return redirect(url_for('index'))
-    else:
-        if not user:
-            flash("I was unable to reset your password.")
-            return redirect(url_for('index'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        user.set_password(form.password.data)
-        user.save()
-        flash('Your password has been reset.')
-        return redirect(url_for('login'))
-    return render_template('reset_password.html', form=form)
-
-@app.route('/reset_password_request', methods=['GET', 'POST'])
-def reset_password_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        try:
-            user = User.objects.get(email=form.email.data)
-        except mongoengine.errors.DoesNotExist:
-            flash(f"I was unable to find a user with email {form.email.data}.")
-            return redirect(url_for('index'))
-        else:
-            if user:
-                send_password_reset_email(user)
-                flash('Check your email for the instructions to reset your password')
-            else:
-                flash("Sorry, I was unable to find the user to send the reset email. Please try again.")
-        return redirect(url_for('login'))
-    return render_template('reset_password_request.html',title='Reset Password', form=form)
+    return redirect(url_for("index"))

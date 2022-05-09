@@ -2,7 +2,7 @@
 # a forum where a posts and comments on those posts can be
 # Created, Read, Updated or Deleted (CRUD)
 
-from app import app, login
+from app import app
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
