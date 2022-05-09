@@ -1,0 +1,11 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Teachers</h1>
+{% for teacher in teachers | sort(attribute="teacher_number") %}
+{{teacher.teacher_number}} {{teacher.fname}} {{teacher.lname}}
+
+{% endfor %}
+{% endblock %}

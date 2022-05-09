@@ -55,3 +55,8 @@ def profileEdit():
     form.school.data = current_user.school
 
     return render_template('profileform.html', form=form)
+
+@app.route('/teacherlist')
+def teacherlist():
+    teachers = User.objects(role = "Teacher")
+    return render_template('teachers.html',teachers=teachers)

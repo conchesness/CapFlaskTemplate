@@ -5,12 +5,13 @@
 # you interact with the data you are creating an onject that is an instance of the class.
 
 from typing import KeysView
+from xmlrpc.client import Boolean
 
 from setuptools import SetuptoolsDeprecationWarning
 from app import app
 from flask import flash
 from flask_login import UserMixin
-from mongoengine import FileField, EmailField, StringField, IntField, ReferenceField, DateTimeField, CASCADE
+from mongoengine import FileField, EmailField, StringField, IntField, ReferenceField, DateTimeField, BooleanField, CASCADE
 from flask_mongoengine import Document
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime as dt
@@ -19,6 +20,7 @@ from time import time
 #from bson.objectid import ObjectId
 
 class User(UserMixin, Document):
+    isadmin = BooleanField(default=False)
     username = StringField()
     password_hash = StringField()
     fname = StringField()
@@ -31,7 +33,7 @@ class User(UserMixin, Document):
     
     # Below Is All The Teacher Keys
     teacher_number = IntField()
-    troom_number = IntField()
+    troom_number = StringField()
     tdescription = StringField()
     tacademy = StringField()
     troom_phone = IntField()
@@ -73,12 +75,13 @@ class Post(Document):
 
 class Courses(Document): 
     author = ReferenceField('User',reverse_delete_rule=CASCADE) 
-    course_number = StringField()
+    course_number = StringField(required=True,unique=True)
     course_title = StringField()
     course_name = StringField()
     course_ag_requirement = StringField()
     course_difficulty = StringField()
     course_department = StringField()
+    course_pathway = StringField()
     create_date = DateTimeField(default=dt.datetime.utcnow)
     modify_date = DateTimeField()
 
@@ -87,8 +90,9 @@ class Courses(Document):
     }
 
 class TeacherCourse(Document):
-    teacher = ReferenceField('User',reverse_delete_rule=CASCADE) 
-    course = ReferenceField('Courses',reverse_delete_rule=CASCADE)
+    teachercourseid = StringField(unique=True)
+    teacher = ReferenceField('User',reverse_delete_rule=CASCADE, required=True) 
+    course = ReferenceField('Courses',reverse_delete_rule=CASCADE,required=True, unique_with="teacher")
     course_description = StringField()
     course_files = FileField()
     create_date = DateTimeField(default=dt.datetime.utcnow)

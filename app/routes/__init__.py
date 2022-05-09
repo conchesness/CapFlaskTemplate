@@ -4,3 +4,4 @@ from .forum import *
 from .mail import *
 from .user import *
 from .coursecatalog import *
+from .zscripts import *

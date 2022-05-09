@@ -9,7 +9,7 @@
     modified {{moment(course.modify_date).calendar()}}
 {% endif %}
 <br>
-    {% if course.author == current_user %}
+    {% if current_user.isadmin %}
         <a data-toggle="tooltip" data-placement="top" title="Delete Post" href="/course/delete/{{course.id}}">
             <img width="40" class="bottom-image" src="/static/delete.png">
         </a>
@@ -23,23 +23,23 @@
         {% if course.author.image %}
             <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(course.author.image.read())}}">
         {% endif %}
-            <br>
-            <br>
-            <br>
-            <h5 class="mt-5">Course Number:</h5>{{course.course_number}} <br> <br>
-            <h5>Course Name:</h5>{{course.course_name}} <br> <br>
-            <h5>Course A-G Requirement:</h5>{{course.course_ag_requirement}} <br> <br>
-            <h5>Course Difficulty:</h5>{{course.course_difficulty}} <br> <br>
-            <h5>Course Department:</h5>{{course.course_department}}
-
+            <h5 class="mt-5">Course Number:</h5>{{course.course_number}} <br> 
+            <h5>Course Name:</h5>{{course.course_name}} <br> 
+            <h5>Course A-G Requirement:</h5>{{course.course_ag_requirement}} <br> 
+            <h5>Course Difficulty:</h5>{{course.course_difficulty}} <br> 
+            <h5>Course Department:</h5>{{course.course_department}} <br>
+            
+            {% if teacherCourses %}
+            <h5>Teachers</h5>
+                {% for tcourse in teacherCourses %}
+                    <a href="/teachercourse/{{tcourse.id}}">{{tcourse.teacher.fname}} {{tcourse.teacher.lname}}</a> <br>
+                {% endfor %}
+            {% endif %}
     </p>
-
 
       <a href="/course/list" class="btn btn-primary btn-sm"  role="button">View All Courses</a>
       <a href="/course/new" class="btn btn-primary btn-sm"  role="button">Add New Course</a>
       <a href="/comment/new/{{course.id}}" class="btn btn-primary btn-sm" role="button">New Comment</a>
-
-
 
 </div>
     <div class="ms-5 mt-5 col-2">

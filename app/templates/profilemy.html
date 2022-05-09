@@ -22,7 +22,10 @@
         Username: {{current_user.username}} <br>
         Email: {{current_user.email}} <br>
         Role: {{current_user.role}} <br>
-        School: {{current_user.school}}
+        School: {{current_user.school}} <br>
+        {% if current_user.isadmin %}
+            Is Admin: {{current_user.isadmin}}
+        {% endif %}
     </div>
 </div>
 <br>
