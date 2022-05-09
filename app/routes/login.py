@@ -27,7 +27,8 @@ client = WebApplicationClient(secrets['GOOGLE_CLIENT_ID'])
 # https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.unauthorized_handler
 @login_manager.unauthorized_handler
 def unauthorized():
-    return "You must be logged in to access this content.", 403
+    flash("You must be logged in to access that content.")
+    return redirect(url_for('index'))
 
 # Flask-Login helper to retrieve a user object from our db
 # https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
