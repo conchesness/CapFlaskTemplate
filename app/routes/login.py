@@ -147,7 +147,6 @@ def callback():
         thisUser.update(
             gid=gid, 
             gname=gname, 
-            email=gmail, 
             gprofile_pic=gprofile_pic,
             fname = gfname,
             lname = glname
@@ -164,6 +163,7 @@ def callback():
 
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))

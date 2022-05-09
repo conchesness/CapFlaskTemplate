@@ -20,6 +20,7 @@ def course(courseID):
 @login_required
 def courseList():
     courses=Courses.objects()
+    print(courses)
     return render_template('courses.html',courses=courses)
 
 @app.route('/course/new', methods=['GET', 'POST'])

@@ -4,7 +4,7 @@
 
 {% if course %}
 <div class="col-sm">
-{{moment(course.create_date).calendar()}} by {{course.author.username}} 
+Created {{moment(course.create_date).calendar()}}
 {% if course.modify_date %}
     modified {{moment(course.modify_date).calendar()}}
 {% endif %}
@@ -20,9 +20,6 @@
 
     <h1 class="display-5">{{course.course_title}}</h1>
     <p class="fs-3 text-break">
-        {% if course.author.image %}
-            <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(course.author.image.read())}}">
-        {% endif %}
             <h5 class="mt-5">Course Number:</h5>{{course.course_number}} <br> 
             <h5>Course Name:</h5>{{course.course_name}} <br> 
             <h5>Course A-G Requirement:</h5>{{course.course_ag_requirement}} <br> 

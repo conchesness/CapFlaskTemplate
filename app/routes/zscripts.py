@@ -44,7 +44,6 @@ def coursesimport():
             )
         if not thisCourse:
             newCourse = Courses(
-                author=current_user.id,
                 course_number = course['course_number'],
                 course_title = course['course_title'],
                 course_name = course['course_name'],

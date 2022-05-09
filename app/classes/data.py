@@ -61,7 +61,6 @@ class Post(Document):
 # _____________________ iRate
 
 class Courses(Document): 
-    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
     course_number = StringField(required=True,unique=True)
     course_title = StringField()
     course_name = StringField()
