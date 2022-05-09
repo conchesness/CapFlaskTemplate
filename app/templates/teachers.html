@@ -4,8 +4,10 @@
 
 {% block body %}
 <h1>Teachers</h1>
-{% for teacher in teachers | sort(attribute="teacher_number") %}
-{{teacher.teacher_number}} {{teacher.fname}} {{teacher.lname}}
+{% for teacher in teachers %}
+
+<a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a>
+{{teacher.teacher_number}} {{teacher.fname}} {{teacher.lname}} {{teacher.email}} <br>
 
 {% endfor %}
 {% endblock %}

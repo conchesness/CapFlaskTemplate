@@ -23,7 +23,7 @@ from time import time
 
 class User(UserMixin, Document):
     createdate = DateTimeField(defaultdefault=dt.datetime.utcnow)
-    gid = StringField(sparse=True,unique=True)
+    gid = StringField(sparse=True, unique=True, required=True)
     gname = StringField()
     gprofile_pic = StringField()
     isadmin = BooleanField(default=False)

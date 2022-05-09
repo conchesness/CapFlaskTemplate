@@ -57,6 +57,22 @@ def profileEdit():
     return render_template('profileform.html', form=form)
 
 @app.route('/teacherlist')
-def teacherlist():
-    teachers = User.objects(role = "Teacher")
-    return render_template('teachers.html',teachers=teachers)
+@login_required
+def teacherList():
+    if current_user.isadmin:
+        teachers = User.objects()
+        return render_template('teachers.html',teachers=teachers)
+    else:
+        flash("You must be an admin to see this page.")
+        return redirect(url_for('index'))
+
+@app.route('/user/delete/<userId>')
+@login_required
+def userDelete(userId):
+    if current_user.isadmin:
+        deleteUser = User.objects.get(pk = userId)
+        deleteUser.delete()
+        return redirect(url_for('teacherList'))
+    else:
+        flash("You must be an admin to see this page.")
+        return redirect(url_for('index'))

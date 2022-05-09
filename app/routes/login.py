@@ -126,7 +126,7 @@ def callback():
 
     # Get user from DB or create new user
     try:
-        thisUser=User.objects.get(gid=gid)
+        thisUser=User.objects.get(email=gmail)
     except:
         thisUser = User(
             gid=gid, 
@@ -139,6 +139,7 @@ def callback():
         thisUser.save()
     else:
         thisUser.update(
+            gid=gid, 
             gname=gname, 
             email=gmail, 
             gprofile_pic=gprofile_pic,
