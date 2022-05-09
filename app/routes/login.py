@@ -15,7 +15,7 @@ from app.classes.data import User
 from app.utils.secrets import getSecrets
 import mongoengine.errors
 
-admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org"]
+admins = ["stephen.wright@ousd.org", "s_steve.lekezontsop@ousd.org", "leke.steve@gmail.com", "s_benjamin.mansell@ousd.org"]
 
 #get all the credentials for google
 secrets = getSecrets()

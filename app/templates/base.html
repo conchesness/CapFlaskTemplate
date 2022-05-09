@@ -23,7 +23,7 @@ like the navbar. -->
       {{ moment.include_moment() }}
 </head>
 <body>
-    <!--This is where the navbar is placed.  The navbar code is in the includes folder -->
+  <!--This is where the navbar is placed.  The navbar code is in the includes folder -->
     {% include 'includes/_navbar.html' %}
       <!-- Flask has a messages feature called "Flash" where you can pass messages to the template from the code.  This is where 
         those messages are displayed -->
@@ -40,6 +40,7 @@ like the navbar. -->
           </div>
         {% endif %}
       {% endwith %}
+
   <!--This is where each of the templates are embedded in to this template -->
   <div class="container pt-3">
       {% block body %}
