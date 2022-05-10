@@ -1,0 +1,13 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Teachers</h1>
+{% for teacher in teachers %}
+
+<!--a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a-->
+<a href="/teacher/{{teacher.id}}">{{teacher.fname}} {{teacher.lname}}</a> <br>
+
+{% endfor %}
+{% endblock %}

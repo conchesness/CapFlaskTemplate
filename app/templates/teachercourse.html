@@ -7,9 +7,14 @@
 <h1>Teacher Course</h1>
 <h3>
     <a href="/teachercourse/edit/{{tCourse.id}}"><img width="20" src="/static/edit.png"></a>
-    {{tCourse.course.course_title}} {{tCourse.teacher.fname}} {{tCourse.teacher.lname}}
+    <a href="/course/{{tCourse.course.id}}">{{tCourse.course.course_title}}</a> 
+    <a href="/teacher/{{tCourse.teacher.id}}">{{tCourse.teacher.fname}} {{tCourse.teacher.lname}}</a>
 </h3>
-{{tCourse.course_description}} <br>
-<a href="{{tCourse.course_link}}">{{tCourse.course_link}}</a>
+{% if tCourse.course_description %}
+    {{tCourse.course_description}} <br>
+{% endif %}
+{% if tCourse.course_link %}
+    <a href="{{tCourse.course_link}}">{{tCourse.course_link}}</a>
+{% endif %}
 
 {% endblock %}

@@ -2,7 +2,7 @@ from app import app
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
-from app.classes.data import Courses, Comment, TeacherCourse
+from app.classes.data import Courses, Comment, TeacherCourse, User
 from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
 from flask_login import login_required
 import datetime as dt
@@ -120,6 +120,20 @@ def teacherCourseEdit(tcid):
     form.course_description.data = thisTC.course_description
     form.course_link.data = thisTC.course_link
     return render_template('teachercourseform.html',form=form,teacherCourse=thisTC)
+
+@app.route('/teacher/list')
+@login_required
+def teacherList():
+    teachers = User.objects(role="Teacher")
+    return render_template('teachers.html',teachers=teachers)
+
+
+@app.route('/teacher/<teacherID>')
+@login_required
+def teacher(teacherID):
+    teacher = User.objects.get(id=teacherID)
+    tCourses = TeacherCourse.objects(teacher=teacher)
+    return render_template('teacher.html',teacher=teacher,tCourses=tCourses)
 
 
 @app.route('/comment/new/<courseID>', methods=['GET', 'POST'])
