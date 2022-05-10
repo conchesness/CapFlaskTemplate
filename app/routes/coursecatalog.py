@@ -3,7 +3,7 @@ import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
 from app.classes.data import Courses, Comment, TeacherCourse
-from app.classes.forms import CoursesForm, CommentForm
+from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm
 from flask_login import login_required
 import datetime as dt
 
@@ -16,11 +16,14 @@ def course(courseID):
     teacherCourses = TeacherCourse.objects(course = thisCourse)
     return render_template('course.html',course=thisCourse, comments=theseComments, teacherCourses=teacherCourses)
 
-@app.route('/course/list')
+@app.route('/course/list',methods=["GET","POST"])
 @login_required
 def courseList():
     courses=Courses.objects()
-    return render_template('courses.html',courses=courses)
+    form = CourseFilterForm()
+    if form.validate_on_submit():
+        courses = Courses.objects(course_department = form.department.data)
+    return render_template('courses.html',courses=courses,form=form)
 
 @app.route('/course/new', methods=['GET', 'POST'])
 @login_required
@@ -50,8 +53,8 @@ def courseNew():
 @login_required
 def courseEdit(courseID):
     editCourse = Courses.objects.get(id=courseID)
-    if current_user != editCourse.author and not current_user.isadmin:
-        flash("You can't edit a course you don't own.")
+    if not current_user.isadmin:
+        flash("You can't edit a course unless you are an admin.")
         return redirect(url_for('course',courseID=courseID))
     form = CoursesForm()
     if form.validate_on_submit():
@@ -86,6 +89,12 @@ def courseDelete(courseID):
         flash("You can't delete a post you don't own.")
     course = Courses.objects()  
     return render_template('courses.html',courses=course)
+
+
+@app.route('/course/search')
+def courseSearch():
+    form = CourseFilterForm()
+
 
 @app.route('/comment/new/<courseID>', methods=['GET', 'POST'])
 @login_required

@@ -10,9 +10,18 @@
 
 <div class="ml-5 py-3" style="width: 50%; margin-left: 25%">
     <div class="input-group px-5">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <a href="/course/list">
-        <button type="button" class="btn btn-primary">search</button>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            
+            {{ form.department.label }} <br>
+            {{ form.department() }}
+            <!--List the errors for this field-->
+            {% for error in form.department.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            
+            {{form.submit()}}
+            </form>
         </a>
     </div>
 </div> 
