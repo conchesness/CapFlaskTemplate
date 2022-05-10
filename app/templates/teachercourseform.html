@@ -1,0 +1,41 @@
+<!-- this is a generic form page.  Best way to make a new form page is to 
+copy this one and then edit it. -->
+
+{% extends "base.html" %}
+
+{% block body %}
+        <h1>
+        {{teacherCourse.teacher.fname}} {{teacherCourse.teacher.lname}} <br>
+        {{teacherCourse.course.course_title}}
+        </h1>
+
+        <!--List all errors in a group at the top-->
+        {% for field in form.errors %}
+            {% for error in form.errors[field] %}
+                <div class="alert alert-error">
+                    <strong>Error!</strong>{{field}}: {{error}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <form method=post>
+            {{ form.hidden_tag() }}
+            
+            {{ form.course_description.label }} <br>
+            {{ form.course_description(size=64) }}
+            <!--List the errors for this field-->
+            {% for error in form.course_description.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+<br>
+            {{ form.course_link.label }} <br>
+            {{ form.course_link(size=64) }}
+            <!--List the errors for this field-->
+            {% for error in form.course_link.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+<br>
+            {{form.submit()}}
+        </form>
+        
+{% endblock %}

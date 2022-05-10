@@ -81,6 +81,7 @@ class TeacherCourse(Document):
     course = ReferenceField('Courses',reverse_delete_rule=CASCADE,required=True, unique_with="teacher")
     course_description = StringField()
     course_files = FileField()
+    course_link = StringField()
     create_date = DateTimeField(default=dt.datetime.utcnow)
     modify_date = DateTimeField()
 

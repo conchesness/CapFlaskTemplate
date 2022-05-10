@@ -3,7 +3,7 @@ import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
 from app.classes.data import Courses, Comment, TeacherCourse
-from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm
+from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
 from flask_login import login_required
 import datetime as dt
 
@@ -96,6 +96,32 @@ def courseSearch():
     form = CourseFilterForm()
 
 
+@app.route('/teachercourse/<tcid>')
+@login_required
+def teachercourse(tcid):
+    thisTC = TeacherCourse.objects.get(id=tcid)
+    return render_template("teachercourse.html",tCourse = thisTC)
+
+
+@app.route('/teachercourse/edit/<tcid>',methods=["GET","POST"])
+@login_required
+def teacherCourseEdit(tcid):
+    thisTC = TeacherCourse.objects.get(id=tcid)
+    if current_user.id != thisTC.teacher.id and not current_user.isadmin:
+        flash("You can only edit this if it is your class.")
+        return redirect(url_for('teachercourse',tCourse = thisTC))
+    form = TeacherCourseForm()
+    if form.validate_on_submit():
+        thisTC.update(
+            course_description = form.course_description.data,
+            course_link = form.course_link.data
+        )
+        return redirect(url_for('teachercourse',tcid=thisTC.id))
+    form.course_description.data = thisTC.course_description
+    form.course_link.data = thisTC.course_link
+    return render_template('teachercourseform.html',form=form,teacherCourse=thisTC)
+
+
 @app.route('/comment/new/<courseID>', methods=['GET', 'POST'])
 @login_required
 def commentNew(courseID):
@@ -138,9 +164,3 @@ def commentDelete(commentID):
     deleteComment.delete()
     flash('The comments was deleted.')
     return redirect(url_for('course',courseID=deleteComment.course.id)) 
-
-@app.route('/teachercourse/<tcid>')
-@login_required
-def teachercourse(tcid):
-    thisTC = TeacherCourse.objects.get(id=tcid)
-    return render_template("teachercourse.html",tCourse = thisTC)

@@ -5,6 +5,11 @@
 {% block body %}
 
 <h1>Teacher Course</h1>
-<h3>{{tCourse.course.course_title}} {{tCourse.teacher.fname}} {{tCourse.teacher.lname}}</h3>
+<h3>
+    <a href="/teachercourse/edit/{{tCourse.id}}"><img width="20" src="/static/edit.png"></a>
+    {{tCourse.course.course_title}} {{tCourse.teacher.fname}} {{tCourse.teacher.lname}}
+</h3>
+{{tCourse.course_description}} <br>
+<a href="{{tCourse.course_link}}">{{tCourse.course_link}}</a>
 
 {% endblock %}

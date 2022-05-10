@@ -5,9 +5,9 @@
 from flask.app import Flask
 from flask import flash
 from flask_wtf import FlaskForm
-from mongoengine.fields import EmailField
 import mongoengine.errors
 from wtforms.validators import URL, NumberRange, Email, Optional, InputRequired, ValidationError, DataRequired, EqualTo
+from wtforms.fields.html5 import URLField
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField, HiddenField, IntegerField, SelectField, FileField, BooleanField
 from app.classes.data import User
 
@@ -46,11 +46,11 @@ class CoursesForm(FlaskForm):
     submit = SubmitField('Add Course')
 
 class TeacherCourseForm(FlaskForm):
-    teacher = SelectField('Teacher',choices=[], validators=[DataRequired()]) 
-    course = SelectField('Course',choices=[], validators=[DataRequired()])
-    course_description = FileField('Course Description', validators=[DataRequired()])
-    course_files = FileField("Insert Files Relevant To The Course (Ex. Syllabus, Examples of Coursework)", validators=[DataRequired()]) 
-    submit = SubmitField('Add Class')
+    teacher = SelectField('Teacher',choices=[],validate_choice=False)
+    course = SelectField('Course',choices=[],validate_choice=False)
+    course_description = StringField('Course Description')
+    course_link = URLField("A link to a Google Document or a folder", validators=[URL()]) 
+    submit = SubmitField('Submit')
 
 # Start building out the physical forms. Follow the process you used to create the school tag
 
