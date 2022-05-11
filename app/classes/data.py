@@ -43,6 +43,10 @@ class User(UserMixin, Document):
     tdescription = StringField()
     tacademy = StringField()
     troom_phone = IntField()
+
+    meta = {
+        'ordering': ['lname','fname']
+    }
     
 
 class Post(Document):

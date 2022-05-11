@@ -8,6 +8,7 @@ import datetime as dt
 from mongoengine.errors import NotUniqueError, DoesNotExist
 from mongoengine import Q
 
+
 @app.route('/coursesimport')
 def coursesimport():
     # Place a csv file of the courses to be imported into the csv 

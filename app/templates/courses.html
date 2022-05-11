@@ -4,86 +4,99 @@
 
 {% block body %}
 
+
+{% if request.environ.PATH_INFO != "/tcoursefilter/courses" %}
 <div class="d-flex justify-content-center">
     <h1 class="display-5">All Courses</h1>
 </div>
-
 <div class="ml-5 py-3" style="width: 50%; margin-left: 25%">
     <div class="input-group px-5">
+        {% for field in form.errors %}
+            {% for error in form.errors[field] %}
+                <div class="alert alert-error">
+                    <strong>Error!</strong>{{field}}: {{error}}
+                </div>
+            {% endfor %}
+        {% endfor %}
         <form method="post">
             {{ form.hidden_tag() }}
             
             {{ form.department.label }} <br>
-            {{ form.department() }}
-            <!--List the errors for this field-->
-            {% for error in form.department.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-            
-            {{form.submit()}}
+            {{ form.department() }} <br>
+            {{ form.filter.label }} <br>
+            {{ form.filter() }}
+
+            {{form.submit()}} <br>
             </form>
         </a>
     </div>
 </div> 
-
 <div class="d-flex justify-content-center">
     <a href="/course/new" class="btn btn-primary btn-sm mt-5" role="button">New Course</a>
 </div>
+{% else %}
+<div class="d-flex justify-content-center">
+    <h1 class="display-5">Courses with Teachers</h1>
+</div>
+<div class="d-flex justify-content-center">
+    <a href="/course/list">All Courses</a>
+</div>
+
+{% endif %}
 
 
-<div class="container">
-    <div class="d-flex justify-content-center mx-5">
-        <div class="row mt-3">
-            <div class="card-deck">
-                {% if courses %}
-                {% for course in courses %}
-                <div class="card mx-4 mt-5" style="width: 21rem; display:inline-block">
-                    <div class="card-body">
-                    <p class="h6 card-title ">
-                        {{course.course_number}} 
-                        {% if current_user.isadmin %}
-                            <a href="/course/edit/{{course.id}}"><img width="20" src="/static/edit.png"></a>
-                            <a href="/course/delete/{{course.id}}"><img width="20" src="/static/delete.png"></a>
-                        {% endif %}
-                    </p>
-                    <p class="h5 card-title font-weight-light ">
-                        {% if course.course_name %}
-                            {{course.course_name}}
-                        {% else %}
-                            {{course.course_title}}
-                        {% endif %}
-                    </p>
-                    <p class="card-subtitle mb-2 text-muted font-italic">
-                        Dept: {{course.course_department}} 
-                    </p>
-                    <p class="card-title ">
-                        {% if course.course_ag_requirement %}
-                            {{course.course_ag_requirement}}
-                        {% endif %}
-                        {% if course.course_difficulty and course.course_ag_requirement %}
-                            <br>
-                        {% endif %}
-                        {% if course.course_difficulty %}
-                            Level: {{course.course_difficulty}}
-                        {% else %}
-                            Level: N/A
-                        {% endif %}
-                    </p>
-                    <div class="d-flex justify-content-end">
-                        <a href="/course/{{course.id}}" class="btn btn-primary btn-sm" role="button">View Course</a>
-                    </div>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">{{moment(course.create_date).calendar()}}</small>
-                    </div>
+<div class="row mt-3 justify-content-center">
+    <div class="col">
+        <div class="card-deck">
+            {% if courses %}
+            {% for course in courses %}
+            <div class="card mx-2 mt-5" style="width: 20rem; display:inline-block">
+                <div class="card-body">
+                <p class="h6 card-title ">
+                    {{course.course_number}} 
+                    {% if current_user.isadmin %}
+                        <a href="/course/edit/{{course.id}}"><img width="20" src="/static/edit.png"></a>
+                        <a href="/course/delete/{{course.id}}"><img width="20" src="/static/delete.png"></a>
+                    {% endif %}
+                </p>
+                <p class="h5 card-title font-weight-light ">
+                    {% if course.course_name %}
+                        {{course.course_name}}
+                    {% else %}
+                        {{course.course_title}}
+                    {% endif %}
+                </p>
+                <p class="card-subtitle mb-2 text-muted font-italic">
+                    Dept: {{course.course_department}} 
+                </p>
+                <p class="card-title ">
+                    {% if course.course_ag_requirement %}
+                        {{course.course_ag_requirement}}
+                    {% endif %}
+                    {% if course.course_difficulty and course.course_ag_requirement %}
+                        <br>
+                    {% endif %}
+                    {% if course.course_difficulty %}
+                        Level: {{course.course_difficulty}}
+                    {% else %}
+                        Level: N/A
+                    {% endif %}
+                </p>
+                <div class="d-flex justify-content-end">
+                    <a href="/course/{{course.id}}" class="btn btn-primary btn-sm" role="button">View Course</a>
                 </div>
-                {% endfor %}
-                {% else %}
-                    <h1 class="mt-5">No Courses</h1>
-                {% endif %}
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{moment(course.create_date).calendar()}}</small>
+                </div>
             </div>
+            {% endfor %}
+            {% else %}
+                <h1 class="mt-5">No Courses</h1>
+            {% endif %}
         </div>
     </div>
 </div>
+
 
 {% endblock %}

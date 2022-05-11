@@ -6,6 +6,7 @@ from app.classes.data import Courses, Comment, TeacherCourse, User
 from app.classes.forms import CoursesForm, CommentForm, CourseFilterForm, TeacherCourseForm
 from flask_login import login_required
 import datetime as dt
+from mongoengine import Q
 
 
 @app.route('/course/<courseID>')
@@ -19,10 +20,42 @@ def course(courseID):
 @app.route('/course/list',methods=["GET","POST"])
 @login_required
 def courseList():
-    courses=Courses.objects()
     form = CourseFilterForm()
+    courses = Courses.objects()
+
     if form.validate_on_submit():
-        courses = Courses.objects(course_department = form.department.data)
+        if len(form.department.data) > 0:
+            courses = Courses.objects(course_department = form.department.data)
+
+        def uniqueTCourses():
+            tCoursesAll = TeacherCourse.objects()
+            tCourses=[]
+            for tc in tCoursesAll:
+                tCourses.append(tc.course)
+            tCourses=set(tCourses)
+            return(tCourses)
+
+        if form.filter.data == "Courses with Teachers":
+            tCourses = uniqueTCourses()
+        elif form.filter.data == "Courses without Teachers":
+            tCourses = uniqueTCourses()
+            tCoursesNot = []
+            for element in courses:
+                if element not in tCourses:
+                    tCoursesNot.append(element)
+            tCourses = tCoursesNot
+        else:
+            tCourses = False
+
+        if tCourses == False:
+            pass
+        else:
+            intersection = []
+            for course in tCourses:
+                if course in courses:
+                    intersection.append(course)
+            courses = intersection
+        
     return render_template('courses.html',courses=courses,form=form)
 
 @app.route('/course/new', methods=['GET', 'POST'])
@@ -91,11 +124,6 @@ def courseDelete(courseID):
     return render_template('courses.html',courses=course)
 
 
-@app.route('/course/search')
-def courseSearch():
-    form = CourseFilterForm()
-
-
 @app.route('/teachercourse/<tcid>')
 @login_required
 def teachercourse(tcid):
@@ -121,11 +149,23 @@ def teacherCourseEdit(tcid):
     form.course_link.data = thisTC.course_link
     return render_template('teachercourseform.html',form=form,teacherCourse=thisTC)
 
+
+@app.route('/teacher/list/<withtc>')
 @app.route('/teacher/list')
 @login_required
-def teacherList():
-    teachers = User.objects(role="Teacher")
-    return render_template('teachers.html',teachers=teachers)
+def teacherList(withtc=0):
+    if withtc == 0:
+        teachers = User.objects(role="Teacher")
+    else:
+        tCourses = TeacherCourse.objects()
+        teachers=[]
+        for tc in tCourses:
+            teachers.append(tc.teacher)
+        teachers=set(teachers)
+        teachers=list(teachers)
+        teachers.sort(key=lambda x: x.lname.lower())
+
+    return render_template('teachers.html',teachers=teachers,withtc=withtc)
 
 
 @app.route('/teacher/<teacherID>')
