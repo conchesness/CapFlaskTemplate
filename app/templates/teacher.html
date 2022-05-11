@@ -1,0 +1,11 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{{teacher.fname}} {{teacher.lname}} <br>
+{% for tc in tCourses  %}
+    <a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,21 @@
+<!-- This is a blank template.  You can copy this to make a new template page. -->
+
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if withtc != "1" %}
+<h1>All Teachers</h1>
+<a href="/teacher/list/1">Only show teachers with Teacher Courses</a> 
+{% else %}
+<h1>Teachers With Courses</h1>
+<a href="/teacher/list">Show all teachers</a> 
+{% endif %}
+<br> <br>
+{% for teacher in teachers %}
+
+<!--a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a-->
+<a href="/teacher/{{teacher.id}}">{{teacher.fname}} {{teacher.lname}}</a> <br>
+
+{% endfor %}
+{% endblock %}

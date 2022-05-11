@@ -5,64 +5,54 @@
 from flask.app import Flask
 from flask import flash
 from flask_wtf import FlaskForm
-from mongoengine.fields import EmailField
 import mongoengine.errors
 from wtforms.validators import URL, NumberRange, Email, Optional, InputRequired, ValidationError, DataRequired, EqualTo
+from wtforms.fields.html5 import URLField
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField, HiddenField, IntegerField, SelectField, FileField, BooleanField
 from app.classes.data import User
 
-class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me?')
-    submit = SubmitField()
+departments = [("",""),("Mathmatics","Mathmatics"),("Science", "Science"),("English", "English"),("Visual and Performing Arts", "Visual and Performing Arts"),("Humanities", "Humanities"),("PE", "Physical Education (PE)"), ("World Languages", "World Languages"), ("CTE", "Career Techincal Education (CTE)"),("Other Elective","Other Elective")]
 
-class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])  
-    fname = StringField('First Name', validators=[DataRequired()])
-    lname = StringField('Last Name', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
-
-    def validate_username(self, username):
-        try:
-            User.objects.get(username=username.data)
-        except mongoengine.errors.DoesNotExist:
-            flash(f"{username.data} is available.")
-        else:
-            raise ValidationError('This username is taken.')
-
-    def validate_email(self, email):
-        try:
-            User.objects.get(email=email.data)
-        except mongoengine.errors.DoesNotExist:
-            flash(f'{email.data} is a unique email address.')
-        else:
-            raise ValidationError('This email address is already in use. if you have forgotten your credentials you can try to recover your account.')
-
-class ResetPasswordRequestForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
-
-class ResetPasswordForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Request Password Reset')
+class CourseFilterForm(FlaskForm):
+    department = SelectField('Department',choices = departments)
+    filter = SelectField("Filter",choices=[("",""),("Courses with Teachers","Courses with Teachers"),("Courses without Teachers","Courses without Teachers")])
+    submit = SubmitField("Search")
 
 class ProfileForm(FlaskForm):
     fname = StringField('First Name', validators=[DataRequired()])
     lname = StringField('Last Name', validators=[DataRequired()]) 
+    role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
+    school = SelectField('School',choices=[("Oakland Technical High School","Oakland Technical High School")])
     image = FileField("Image") 
+    role = SelectField('role',choices=[("Teacher","Teacher"),("Student", "Student")])
     submit = SubmitField('Post')
 
 class PostForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     content = TextAreaField('Post', validators=[DataRequired()])
+    tag = StringField('Tag', validators=[DataRequired()])
     submit = SubmitField('Post')
 
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
+
+class CoursesForm(FlaskForm): 
+    course_number = StringField('Course Number', validators=[DataRequired()])
+    course_title = StringField('Course Title', validators=[DataRequired()])
+    course_name = StringField('Course Name', validators=[DataRequired()])
+    course_ag_requirement = SelectField('Courses A-G Requirement',choices=[("",""),("A-History","A-History"),("B-English", "B-English"), ("C-Mathematics","C-Mathematics"), ("D-Science","D-Science"), ("E-Language Other Than English","E-Language Other Than English"), ("F-Visual And Performing Arts","F-Visual And Performing Arts"), ("G-College-Preparatory Elective","G- College-Preparatory Elective")])
+    course_difficulty = SelectField('Course Difficulty',choices=[("",""),("Advanced Placement (AP)","Advanced Placement (AP)"),("Honors (HP)", "Honors (HP)")])
+    course_department = SelectField('Course Department',choices=departments)
+    submit = SubmitField('Add Course')
+
+class TeacherCourseForm(FlaskForm):
+    teacher = SelectField('Teacher',choices=[],validate_choice=False)
+    course = SelectField('Course',choices=[],validate_choice=False)
+    course_description = StringField('Course Description')
+    course_link = URLField("A link to a Google Document or a folder", validators=[URL()]) 
+    submit = SubmitField('Submit')
+
+# Start building out the physical forms. Follow the process you used to create the school tag
+
+

@@ -7,8 +7,6 @@
         <img width="40" src="/static/edit.png">
     </a>
 </h1>
-
-
 <div class="row">
     <div class="col-2">
         {% if current_user.image %}
@@ -19,11 +17,18 @@
     </div>
     <div class="col display-5">
         {% if current_user.fname and current_user.lname %}
-            Real Name: {{current_user.fname}}  {{current_user.lname}} <br>
+            Name: {{current_user.fname}}  {{current_user.lname}} <br>
+        {% else %}
+            Google User Name: {{current_user.gname}} <br>
         {% endif %}
-        
-        Username: {{current_user.username}} <br>
-        Email: {{current_user.email}}
+        Email: {{current_user.email}} <br>
+        Role: {{current_user.role}} <br>
+        School: {{current_user.school}} <br>
+        GoogleID: {{current_user.gid}} <br>
+        Teacher Number: {{current_user.teacher_number}} <br>
+        {% if current_user.isadmin %}
+            Is Admin: {{current_user.isadmin}}
+        {% endif %}
     </div>
 </div>
 <br>

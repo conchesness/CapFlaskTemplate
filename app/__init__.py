@@ -1,40 +1,33 @@
-# Every level/folder of a Python application has an __init__.py file. 
-# The purpose of this file is to connect the levels
-# of the app to each other. 
-from mongoengine import connect
-from flask import Flask
+# Python standard libraries
+import json
 import os
+
+# Third party libraries
+from flask import Flask
+from mongoengine import connect
+from flask_login import LoginManager
+#from oauthlib.oauth2 import WebApplicationClient
+import certifi
+from app.utils.secrets import getSecrets
 from flask_moment import Moment
 import base64
-from flask_login import LoginManager
-from flask_mail import Mail
-import certifi
 
+# Flask app setup
 app = Flask(__name__)
-#app.jinja_options['extensions'].append('jinja2.ext.do')
-app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY") or os.urandom(20)
+app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-from app.utils.secrets import getSecrets
-
+# Configuration
 secrets = getSecrets()
 
+# User session management setup
+# https://flask-login.readthedocs.io/en/latest
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# Naive database setup
 connect(secrets['MONGO_DB_NAME'], host=secrets['MONGO_HOST'], tlsCAFile=certifi.where())
 moment = Moment(app)
-
-login = LoginManager(app)
-login.login_view = 'login'
-
-app.config.update(dict(
-   DEBUG = True,
-   MAIL_SERVER = 'smtp.googlemail.com',
-   MAIL_PORT = 587,
-   MAIL_USE_TLS = 1,
-   MAIL_USE_SSL = 0,
-   MAIL_USERNAME = secrets['MAIL_USERNAME'],
-   MAIL_PASSWORD = secrets['MAIL_PASSWORD']
-))
-
-mail = Mail(app)
 
 def base64encode(img):
     image = base64.b64encode(img)
