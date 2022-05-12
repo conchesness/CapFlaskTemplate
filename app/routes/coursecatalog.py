@@ -199,11 +199,17 @@ def teacherList(withtc=0):
         teachers = User.objects(role="Teacher")
     else:
         tCourses = TeacherCourse.objects()
+        teacherids = set()
         teachers=[]
         for tc in tCourses:
-            teachers.append(tc.teacher)
-        teachers=set(teachers)
-        teachers=list(teachers)
+            try:
+                tc.teacher
+            except:
+                pass
+            else:
+                if tc.teacher.id not in teacherids:
+                    teacherids.add(tc.teacher.id)
+                    teachers.append(tc.teacher)
         teachers.sort(key=lambda x: x.lname.lower())
 
     return render_template('teachers.html',teachers=teachers,withtc=withtc)
