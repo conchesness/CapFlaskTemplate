@@ -100,8 +100,6 @@ def courseEdit(courseID):
         )
         return redirect(url_for('course',courseID=courseID))
 
-    form.course_number.data = editCourse.course_number
-    form.course_title.data = editCourse.course_title
     form.course_name.data = editCourse.course_name
     form.course_ag_requirement.data = editCourse.course_ag_requirement
     form.course_difficulty.data = editCourse.course_difficulty
@@ -205,7 +203,7 @@ def teacherList(withtc=0):
             try:
                 tc.teacher
             except:
-                pass
+                tc.delete()
             else:
                 if tc.teacher.id not in teacherids:
                     teacherids.add(tc.teacher.id)
