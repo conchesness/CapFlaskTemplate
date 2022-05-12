@@ -92,8 +92,6 @@ def courseEdit(courseID):
     form = CoursesForm()
     if form.validate_on_submit():
         editCourse.update(
-            course_number = form.course_number.data,
-            course_title = form.course_title.data,
             course_name = form.course_name.data,
             course_ag_requirement = form.course_ag_requirement.data,
             course_difficulty = form.course_difficulty.data,
@@ -109,7 +107,7 @@ def courseEdit(courseID):
     form.course_difficulty.data = editCourse.course_difficulty
     form.course_department.data = editCourse.course_department
 
-    return render_template('coursesform.html',form=form)
+    return render_template('coursesform.html',form=form, course=editCourse)
 
 @app.route('/course/delete/<courseID>')
 @login_required
@@ -131,6 +129,15 @@ def teachercourse(tcid):
     return render_template("teachercourse.html",tCourse = thisTC)
 
 
+@app.route('/teachercourse/delete/<tcid>')
+@login_required
+def teachercourseDelete(tcid):
+    delTCID = TeacherCourse.objects.get(id=tcid)
+    teacherID = delTCID.teacher.id
+    delTCID.delete()
+    return redirect(url_for('teacher',teacherID=teacherID))
+
+
 @app.route('/teachercourse/edit/<tcid>',methods=["GET","POST"])
 @login_required
 def teacherCourseEdit(tcid):
@@ -148,6 +155,40 @@ def teacherCourseEdit(tcid):
     form.course_description.data = thisTC.course_description
     form.course_link.data = thisTC.course_link
     return render_template('teachercourseform.html',form=form,teacherCourse=thisTC)
+
+
+@app.route('/unsetteachercourseid')
+def unsetteachercourseid():
+    tcs = TeacherCourse.objects()
+    length = len(tcs)
+    for i,tc in enumerate(tcs):
+        tc.update(teachercourseid=f"{tc.teacher.id}-{tc.course.id}")
+        print(f"{i}/{length}")
+    return redirect(url_for('index'))
+
+
+@app.route('/teachercourse/add/<teacherID>')
+@app.route('/teachercourse/add/<teacherID>/<courseID>')
+@login_required
+def teacherCourseAdd(teacherID,courseID=None):
+    if not current_user.role.lower() == "teacher":
+        flash('You are not a teacher.')
+        return redirect(url_for('teacher/list'))
+    elif not courseID:
+        courses = Courses.objects()
+        teacher = User.objects.get(id=teacherID)
+        return render_template('teachercourseadd.html', teacher = teacher, courses=courses)
+    elif teacherID != current_user.id and not current_user.isadmin:
+        flash("You don't have the privleges to add this teacher course.")
+        return redirect(url_for("teacher",teacherID=teacherID))
+    else:
+        newTeachercourse = TeacherCourse(
+            teacher = teacherID,
+            course = courseID,
+            teachercourseid = f"{teacherID}-{courseID}"
+        )
+        newTeachercourse.save()
+        return redirect(url_for("teacher",teacherID=teacherID))
 
 
 @app.route('/teacher/list/<withtc>')

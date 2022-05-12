@@ -118,8 +118,7 @@ def importteachercourses():
             except:
                 newTeacherCourse = TeacherCourse(
                     teacher = teacher,
-                    course = course,
-                    teachercourseid = f"{teacher.teacher_number}-{course.course_number}" 
+                    course = course
                 )
                 newTeacherCourse.save()
                 print(f"{i}/{length}: Created TeacherCourse {teacher.fname} {teacher.lname} {course.course_title}")

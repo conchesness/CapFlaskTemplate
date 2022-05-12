@@ -80,7 +80,7 @@ class Courses(Document):
     }
 
 class TeacherCourse(Document):
-    teachercourseid = StringField(unique=True)
+    teachercourseid = StringField(sparse=True)
     teacher = ReferenceField('User',reverse_delete_rule=CASCADE, required=True) 
     course = ReferenceField('Courses',reverse_delete_rule=CASCADE,required=True, unique_with="teacher")
     course_description = StringField()

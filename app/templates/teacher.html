@@ -3,9 +3,14 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
-{{teacher.fname}} {{teacher.lname}} <br>
+<h1>Teacher Profile: {{teacher.fname}} {{teacher.lname}}</h1>
+<h3>Classes</h3>
+<ul>
 {% for tc in tCourses  %}
-    <a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a>
+    <li><a href="/teachercourse/{{tc.id}}">{{tc.course.course_title}}</a></li>
 {% endfor %}
+</ul>
+{% if current_user.id == teacher.id or current_user.isadmin %}
+    <a href="/teachercourse/add/{{teacher.id}}"><button type="button" class="btn btn-primary">Add a course</button></a>
+{% endif %}
 {% endblock %}
