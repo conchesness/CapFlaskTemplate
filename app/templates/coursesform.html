@@ -17,8 +17,10 @@ copy this one and then edit it. -->
 
         <form method=post>
             {{ form.hidden_tag() }}
-            <b>Course Number</b><br> {{course.course_number}} <br>
-            <b>Course Title</b> <br> {{course.course_title}} <br> <br>
+            {{ form.course_number.label }}<br>
+            {{ form.course_number}}<br><br>
+            {{ form.course_title.label }}<br>
+            {{ form.course_title}}<br><br>
             <p>
                 {{ form.course_name.label }}<br>
                 {{ form.course_name(size=64) }}<br>
