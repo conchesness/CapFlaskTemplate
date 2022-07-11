@@ -6,7 +6,7 @@
 
 
 {% if request.environ.PATH_INFO != "/tcoursefilter/courses" %}
-<div class="d-flex justify-content-center">
+<div class="mt-5 d-flex justify-content-center">
     <h1 class="display-5">All Courses</h1>
 </div>
 <div class="mt-5 ml-6" >
@@ -94,7 +94,9 @@
         </div>
         {% endfor %}
         {% else %}
-            <h1 class="mt-5">No Courses</h1>
+            <div class="my-5 me-5 d-flex justify-content-center">
+                <h1 class="me-5 mt-5">No Courses</h1>
+            </div>
         {% endif %}
     </div>
 
