@@ -15,7 +15,7 @@
 {% for teacher in teachers %}
 
 <!--a href="/user/delete/{{teacher.id}}"><img width="20" src="/static/delete.png"></a-->
-<a href="/teacher/{{teacher.id}}">{{teacher.fname}} {{teacher.lname}}</a> <br>
+<a href="/teacher/{{teacher.id}}" class="text-capitalize">{{teacher.fname}} {{teacher.lname}}</a> <br>
 
 {% endfor %}
 {% endblock %}

@@ -37,7 +37,9 @@ class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
 
-class CoursesForm(FlaskForm): 
+class CoursesForm(FlaskForm):
+    course_number = StringField('Course Number', validators=[DataRequired()])
+    course_title = StringField('Course Title', validators=[DataRequired()])
     course_name = StringField('Course Name', validators=[DataRequired()])
     course_ag_requirement = SelectField('Courses A-G Requirement',choices=[("",""),("A-History","A-History"),("B-English", "B-English"), ("C-Mathematics","C-Mathematics"), ("D-Science","D-Science"), ("E-Language Other Than English","E-Language Other Than English"), ("F-Visual And Performing Arts","F-Visual And Performing Arts"), ("G-College-Preparatory Elective","G- College-Preparatory Elective")])
     course_difficulty = SelectField('Course Difficulty',choices=[("",""),("Advanced Placement (AP)","Advanced Placement (AP)"),("Honors (HP)", "Honors (HP)")])

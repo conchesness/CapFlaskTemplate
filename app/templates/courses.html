@@ -9,7 +9,7 @@
 <div class="d-flex justify-content-center">
     <h1 class="display-5">All Courses</h1>
 </div>
-<div class="ml-5 py-3" style="width: 50%; margin-left: 25%">
+<div class="mt-5 ml-6" >
     <div class="input-group px-5">
         {% for field in form.errors %}
             {% for error in form.errors[field] %}
@@ -18,17 +18,23 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        <form method="post">
-            {{ form.hidden_tag() }}
-            
-            {{ form.department.label }} <br>
-            {{ form.department() }} <br>
-            {{ form.filter.label }} <br>
-            {{ form.filter() }}
+         <form method="post">
+            <div class="d-flex justify-content-start">
+                {{ form.hidden_tag() }}
+                    <div class="px-5">
+                        <span class="h6">{{form.department.label }}:</span> 
+                        {{ form.department() }}
+                    </div>
+                    <div class="px-5">
+                    <span class="h6">{{form.filter.label }}:</span> 
+                    {{ form.filter() }}
+                    </div>
+                    <div class="px-5">
+                    {{form.submit()}}
+                     </div>
+                </div> 
+        </form>
 
-            {{form.submit()}} <br>
-            </form>
-        </a>
     </div>
 </div> 
 <div class="d-flex justify-content-center">
@@ -43,19 +49,19 @@
 </div>
 
 {% endif %}
-    <div class="card-deck justify-content-center">
+    <div class="ml-6 card-deck justify-content-between">
         {% if courses %}
         {% for course in courses %}
         <div class="card mx-2 mt-5" style="width: 20rem; display:inline-block">
             <div class="card-body">
-            <p class="h6 card-title ">
+            <p class="p1 card-title ">
                 {{course.course_number}} 
                 {% if current_user.isadmin %}
                     <a href="/course/edit/{{course.id}}"><img width="20" src="/static/edit.png"></a>
                     <a href="/course/delete/{{course.id}}"><img width="20" src="/static/delete.png"></a>
                 {% endif %}
             </p>
-            <p class="h5 card-title font-weight-light ">
+            <p class="h6 card-title font-weight-light ">
                 {% if course.course_name %}
                     {{course.course_name}}
                 {% else %}
@@ -66,12 +72,12 @@
                 Dept: {{course.course_department}} 
             </p>
             <p class="card-title ">
-                {% if course.course_ag_requirement %}
+                <!-- {% if course.course_ag_requirement %}
                     {{course.course_ag_requirement}}
                 {% endif %}
                 {% if course.course_difficulty and course.course_ag_requirement %}
                     <br>
-                {% endif %}
+                {% endif %} -->
                 {% if course.course_difficulty %}
                     Level: {{course.course_difficulty}}
                 {% else %}
@@ -83,7 +89,7 @@
             </div>
             </div>
             <div class="card-footer">
-                <small class="text-muted">{{moment(course.create_date).calendar()}}</small>
+                <small class="text-muted"> Last Updated: {{moment(course.create_date).calendar()}}</small>
             </div>
         </div>
         {% endfor %}
