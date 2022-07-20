@@ -68,7 +68,7 @@ class Courses(Document):
     course_number = StringField(required=True,unique=True)
     course_title = StringField()
     course_name = StringField()
-    course_year = IntField()
+    course_year = IntField(required=False, sparse=True)
     course_ag_requirement = StringField()
     course_difficulty = StringField()
     course_department = StringField()
