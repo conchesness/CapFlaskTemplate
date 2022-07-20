@@ -49,6 +49,13 @@ copy this one and then edit it. -->
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </p>
+            <p>
+                {{ form.course_year.label }}<br>
+                {{ form.course_year() }}<br>
+                {% for error in form.course_year.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
 
             {{form.submit()}}
         </form>

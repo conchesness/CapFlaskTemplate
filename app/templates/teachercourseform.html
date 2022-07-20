@@ -28,12 +28,22 @@ copy this one and then edit it. -->
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
 <br>
+<br>
             {{ form.course_link.label }} <br>
             {{ form.course_link(size=64) }}
             <!--List the errors for this field-->
             {% for error in form.course_link.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
+<br>
+<br>
+            {{ form.course_files.label }} <br>
+            {{ form.course_files(size=64) }}
+            <!--List the errors for this field-->
+            {% for error in form.course_link.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+<br>
 <br>
             {{form.submit()}}
         </form>

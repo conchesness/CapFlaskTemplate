@@ -73,6 +73,7 @@ def courseNew():
             course_ag_requirement = form.course_ag_requirement.data,
             course_difficulty = form.course_difficulty.data,
             course_department = form.course_department.data,
+            couse_year = form.course_year.data,
             # author = current_user.id,
             modify_date = dt.datetime.utcnow
         )
@@ -99,6 +100,7 @@ def courseEdit(courseID):
             course_ag_requirement = form.course_ag_requirement.data,
             course_difficulty = form.course_difficulty.data,
             course_department = form.course_department.data,
+            course_year = form.course_year.data,
             modify_date = dt.datetime.utcnow
         )
         return redirect(url_for('course',courseID=courseID))
@@ -109,6 +111,7 @@ def courseEdit(courseID):
     form.course_ag_requirement.data = editCourse.course_ag_requirement
     form.course_difficulty.data = editCourse.course_difficulty
     form.course_department.data = editCourse.course_department
+    form.course_year.data = editCourse.course_year
 
     return render_template('coursesform.html',form=form, course=editCourse)
 

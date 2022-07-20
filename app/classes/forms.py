@@ -11,7 +11,7 @@ from wtforms.fields.html5 import URLField
 from wtforms import PasswordField, StringField, SubmitField, TextAreaField, HiddenField, IntegerField, SelectField, FileField, BooleanField
 from app.classes.data import User
 
-departments = [("",""),("Mathmatics","Mathmatics"),("Science", "Science"),("English", "English"),("Visual and Performing Arts", "Visual and Performing Arts"),("Humanities", "Humanities"),("PE", "Physical Education (PE)"), ("World Languages", "World Languages"), ("CTE", "Career Techincal Education (CTE)"),("Other Elective","Other Elective")]
+departments = [("",""),("Mathmatics","Mathmatics"),("Science", "Science"),("English", "English"),("Visual and Performing Arts", "Visual and Performing Arts"),("History", "History"),("PE", "Physical Education (PE)"), ("World Languages", "World Languages"), ("CTE", "Career Techincal Education (CTE)"),("Other Elective","Other Elective")]
 
 class CourseFilterForm(FlaskForm):
     department = SelectField('Department',choices = departments)
@@ -45,12 +45,14 @@ class CoursesForm(FlaskForm):
     course_difficulty = SelectField('Course Difficulty',choices=[("",""),("Advanced Placement (AP)","Advanced Placement (AP)"),("Honors (HP)", "Honors (HP)")])
     course_department = SelectField('Course Department',choices=departments)
     submit = SubmitField('Add Course')
+    course_year = SelectField('Course Year',choices=[("",""),(9,9),(10,10),(11,11),(12,12)])
 
 class TeacherCourseForm(FlaskForm):
     teacher = SelectField('Teacher',choices=[],validate_choice=False)
     course = SelectField('Course',choices=[],validate_choice=False)
     course_description = StringField('Course Description')
     course_link = URLField("A link to a Google Document or a folder", validators=[URL()]) 
+    course_files = FileField("Insert Files Relevant To The Course (Ex. Syllabus, Examples of Coursework)", validators=[DataRequired()]) 
     submit = SubmitField('Submit')
 
 # Start building out the physical forms. Follow the process you used to create the school tag

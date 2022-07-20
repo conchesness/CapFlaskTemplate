@@ -63,7 +63,8 @@
             </p>
             <p class="h6 card-title font-weight-light ">
                 {% if course.course_name %}
-                    {{course.course_name}}
+                    <a href="/course/{{course.id}}" class="text-decoration-none text-reset hover-shadow"> {{course.course_name}}</a>
+                    <!-- {{course.course_name}} -->
                 {% else %}
                     {{course.course_title}}
                 {% endif %}
@@ -78,14 +79,35 @@
                 {% if course.course_difficulty and course.course_ag_requirement %}
                     <br>
                 {% endif %} -->
-                {% if course.course_difficulty %}
+                <!-- {% if course.course_difficulty %}
                     Level: {{course.course_difficulty}}
                 {% else %}
                     Level: N/A
-                {% endif %}
+                {% endif %} -->
             </p>
             <div class="d-flex justify-content-end">
-                <a href="/course/{{course.id}}" class="btn btn-primary btn-sm" role="button">View Course</a>
+                {% if course.course_difficulty %}
+                    <h6><span class="badge rounded-pill bg-warning mb-1">{{course.course_difficulty}}</span></h6>
+                 {% else %}
+                    <h6><span class="badge rounded-pill bg-warning mb-1">N/A</span></h5>
+                {% endif %}
+                {% if course.course_ag_requirement %}
+                    <h6><span class="badge rounded-pill bg-primary mb-1 mx-1">{{course.course_year}}</span></h6>
+                {% else %}
+                    <h6><span class="badge rounded-pill bg-primary mb-1 mx-1">N/A</span></h6>
+                {% endif %}  
+                {% if course.course_pathway %}
+                    <h6><span class="badge rounded-pill bg-danger mb-1 mx-1">{{course.course_pathway}}</span></h6>
+                {% else %}
+                    <h6><span class="badge rounded-pill bg-danger mb-1 mx-1">N/A</span></h6>
+                {% endif %}
+                {% if course.course_ag_requirement %}
+                    <h6><span class="badge rounded-pill bg-info mb-1">{{course.course_ag_requirement}}</span></h6>
+                {% else %}
+                    <h6><span class="badge rounded-pill bg-info mb-1">N/A</span></h6>
+                {% endif %}               
+                <!-- <a href="/course/{{course.id}}" class="btn btn-primary btn-sm" role="button">View Course</a> -->
+                <!-- <h5><span class="badge rounded-pill bg-primary mb-1 mx-1">11th</span></h5> -->
             </div>
             </div>
             <div class="card-footer">
